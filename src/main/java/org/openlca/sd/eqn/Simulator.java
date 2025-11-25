@@ -11,10 +11,13 @@ import org.openlca.sd.eqn.Var.Aux;
 import org.openlca.sd.eqn.Var.Stock;
 import org.openlca.sd.eqn.cells.Cell;
 import org.openlca.sd.eqn.cells.NonNegativeCell;
+import org.openlca.sd.eqn.cells.NumCell;
+import org.openlca.sd.eqn.cells.TensorCell;
 import org.openlca.sd.eqn.func.Add;
 import org.openlca.sd.eqn.func.Mul;
 import org.openlca.sd.eqn.func.NonNeg;
 import org.openlca.sd.eqn.func.Sub;
+import org.openlca.sd.eqn.func.Sum;
 import org.openlca.sd.xmile.Xmile;
 
 public class Simulator implements Iterable<Res<SimulationState>> {
@@ -136,59 +139,46 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 		private Res<SimulationState> nextState() {
 
 			// update the stocks
-			// TODO: array projections
 			for (var stock : stocks) {
-				var val = stock.value();
+				var stockVal = stock.value();
 
 				// adding the in-flows
-				for (var inFlowId : stock.inFlows()) {
-					var inFlow = ctx.getVar(inFlowId).orElse(null);
-					if (inFlow == null) {
-						return Res.error("Unknown in-flow '" + inFlowId
-								+ "' of stock: " + stock.name());
-					}
+				for (var flowId : stock.inFlows()) {
+					var flowDelta = flowDelta(stockVal, flowId);
+					if (flowDelta.isError())
+						return Res.error("Failed to evaluate input flow: " + flowId);
 
-					var inFlowDelta = Mul.apply(inFlow.value(), dt);
-					if (inFlowDelta.isError())
-						return Res.error("Failed to calculate: dt * " + inFlowId);
-
-					var nextVal = Add.apply(val, inFlowDelta.value());
+					var nextVal = Add.apply(stockVal, flowDelta.value());
 					if (nextVal.isError()) {
-						return nextVal.wrapError("Failed to add flow " + inFlowId
+						return nextVal.wrapError("Failed to add flow " + flowId
 								+ " to stock " + stock.name());
 					}
-					val = nextVal.value();
+					stockVal = nextVal.value();
 				}
 
 				// subtracting the out-flows
-				for (var outFlowId : stock.outFlows()) {
-					var outFlow = ctx.getVar(outFlowId).orElse(null);
-					if (outFlow == null) {
-						return Res.error("Unknown out-flow '" + outFlowId
-								+ "' of stock: " + stock.name());
-					}
+				for (var flowId : stock.outFlows()) {
+					var flowDelta = flowDelta(stockVal, flowId);
+					if (flowDelta.isError())
+						return Res.error("Failed to evaluate output flow: " + flowId);
 
-					var outFlowDelta = Mul.apply(outFlow.value(), dt);
-					if (outFlowDelta.isError())
-						return Res.error("Failed to calculate: dt * " + outFlowId);
-
-					var nextVal = Sub.apply(val, outFlowDelta.value());
+					var nextVal = Sub.apply(stockVal, flowDelta.value());
 					if (nextVal.isError()) {
-						return nextVal.wrapError("Failed to subtract out-flow " + outFlowId
+						return nextVal.wrapError("Failed to subtract out-flow " + flowId
 								+ " from stock " + stock.name());
 					}
-					val = nextVal.value();
+					stockVal = nextVal.value();
 				}
 
 				if (stock.def() instanceof NonNegativeCell) {
-					var nonNeg = new NonNeg().apply(List.of(val));
+					var nonNeg = new NonNeg().apply(List.of(stockVal));
 					if (nonNeg.isError()) {
 						return nonNeg.wrapError(
 								"Failed to apply NonNeg on stock " + stock.name());
 					}
-					val = nonNeg.value();
+					stockVal = nonNeg.value();
 				}
-				stock.pushValue(val);
+				stock.pushValue(stockVal);
 			}
 
 			// evaluate the variables
@@ -202,6 +192,29 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 			iteration++;
 			timeVar.pushValue(Cell.of(time.next()));
 			return Res.ok(new SimulationState(iteration, time.current(), state));
+		}
+
+		private Res<Cell> flowDelta(Cell stock, Id flowId) {
+			var flow = ctx.getVar(flowId).orElse(null);
+			if (flow == null)
+				return Res.error("Flow is not defined: " + flowId);
+			var res = Mul.apply(flow.value(), dt);
+			if (res.isError())
+				return res.wrapError("Failed to calculate: " + flowId + " * dt");
+			var cell = res.value();
+			if (cell instanceof TensorCell(Tensor flowTensor)) {
+				return switch (stock) {
+					case TensorCell(Tensor stockTensor) -> {
+						var t = TensorProjection.of(flowTensor, stockTensor.dimensions());
+						yield t.isError()
+							? t.wrapError("Failed to project flow tensor to stock dimension")
+							: Res.ok(Cell.of(t.value()));
+					}
+					case NumCell ignore -> Sum.of(flowTensor);
+					case null, default -> Res.ok(cell);
+				};
+			}
+			return Res.ok(cell);
 		}
 	}
 }
