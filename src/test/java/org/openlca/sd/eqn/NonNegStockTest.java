@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openlca.sd.xmile.Xmile;
 
-public class NonNegTest {
+public class NonNegStockTest {
 
 	private Xmile xmile;
 
