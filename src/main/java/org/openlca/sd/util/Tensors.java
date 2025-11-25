@@ -40,6 +40,9 @@ public class Tensors {
 	}
 
 	/// Returns the subscript addresses of all possible elements of this tensor.
+	/// The returned addresses have the correct dimension order, means the first
+	/// element of an address is an element of the first dimension, the second
+	/// element an element of the second dimension etc.
 	public static List<List<Subscript>> addressesOf(Tensor t) {
 		if (t == null)
 			return List.of();

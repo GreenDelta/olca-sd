@@ -13,13 +13,13 @@ public class SimulatorArrayExample {
 
 	public static void main(String[] args) {
 		var xmile = Xmile
-				.readFrom(new File("examples/res-pop-arrays.stmx"))
+				.readFrom(new File("examples/plastic-subs.stmx"))
 				.orElseThrow();
 		var sim = Simulator.of(xmile).orElseThrow();
 		var iter = sim.iterator();
-		
+
 		Iterable<Res<SimulationState>> wrap = () -> iter;
-		var stock = Id.of("Population");
+		var stock = Id.of("plastic use");
 		var printer = new TensorPrinter();
 		for (var res : wrap) {
 			if (res.isError()) {

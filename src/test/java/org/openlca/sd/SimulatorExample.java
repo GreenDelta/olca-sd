@@ -10,11 +10,11 @@ public class SimulatorExample {
 
 	public static void main(String[] args) {
 		var xmile = Xmile
-			.readFrom(new File("examples/testing.stmx"))
+			.readFrom(new File("examples/plastic-subs.stmx"))
 			.orElseThrow();
 		var sim = Simulator.of(xmile).orElseThrow();
 
-		var vid = Id.of("reuse");
+		var vid = Id.of("plastic use");
 		System.out.println("results of: " + vid);
 		for (var res : sim) {
 			if (res.isError()) {
