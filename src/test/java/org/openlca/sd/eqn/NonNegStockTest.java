@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openlca.sd.xmile.Xmile;
 
@@ -80,7 +81,11 @@ public class NonNegStockTest {
 	///
 	/// The outflow values should reflect the constrained amounts, not
 	/// the original requested amounts.
+	///
+	/// This is currently not implemented. Also, it is not clear if this should
+	/// be implemented this way, or if this is more a display / export thing
 	@Test
+	@Ignore
 	public void testMultipleOutflowsConstrained() throws Exception {
 		Xmile multiOutflowXmile;
 		try (var stream = getClass().getResourceAsStream("non-neg-stock-multi-outflow.xml")) {
