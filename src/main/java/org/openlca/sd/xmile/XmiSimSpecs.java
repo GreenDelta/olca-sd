@@ -69,6 +69,13 @@ public class XmiSimSpecs {
 		return this;
 	}
 
+	public DeltaT withDt() {
+		if (dt == null) {
+			dt = new DeltaT();
+		}
+		return dt;
+	}
+
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class DeltaT {
 

@@ -23,7 +23,7 @@ public class XmiModel {
 		@XmlElement(name = "gf", namespace = Xmile.NS, type = XmiGf.class),
 		@XmlElement(name = "aux", namespace = Xmile.NS, type = XmiAux.class)
 	})
-	List<XmiVariable> variables;
+	List<XmiVariable<?>> variables;
 
 	@XmlElementWrapper(name = "views", namespace = Xmile.NS)
 	@XmlElements({
@@ -32,7 +32,7 @@ public class XmiModel {
 	})
 	List<Object> views;
 
-	public List<XmiVariable> variables() {
+	public List<XmiVariable<?>> variables() {
 		return variables == null ? Collections.emptyList() : variables;
 	}
 
@@ -81,11 +81,21 @@ public class XmiModel {
 		return result;
 	}
 
-	public List<XmiVariable> withVariables() {
+	public XmiModel withVariables(List<XmiVariable<?>> variables) {
+		this.variables = variables;
+		return this;
+	}
+
+	public List<XmiVariable<?>> withVariables() {
 		if (variables == null || variables.isEmpty()) {
 			variables = new ArrayList<>();
 		}
 		return variables;
+	}
+
+	public XmiModel withViews(List<Object> views) {
+		this.views = views;
+		return this;
 	}
 
 	public List<Object> withViews() {

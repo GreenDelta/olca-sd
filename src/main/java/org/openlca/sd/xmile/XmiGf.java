@@ -53,9 +53,23 @@ public final class XmiGf extends XmiVariable<XmiGf> {
 		return this;
 	}
 
+	public XmiMinMax withXScale() {
+		if (xscale == null) {
+			xscale = new XmiMinMax();
+		}
+		return xscale;
+	}
+
 	public XmiGf withXPts(XmiPoints xpts) {
 		this.xpts = xpts;
 		return this;
+	}
+
+	public XmiPoints withXPts() {
+		if (xpts == null) {
+			xpts = new XmiPoints();
+		}
+		return xpts;
 	}
 
 	public XmiGf withYScale(XmiMinMax yscale) {
@@ -63,8 +77,22 @@ public final class XmiGf extends XmiVariable<XmiGf> {
 		return this;
 	}
 
+	public XmiMinMax withYScale() {
+		if (yscale == null) {
+			yscale = new XmiMinMax();
+		}
+		return yscale;
+	}
+
 	public XmiGf withYPts(XmiPoints ypts) {
 		this.ypts = ypts;
 		return this;
+	}
+
+	public XmiPoints withYPts() {
+		if (ypts == null) {
+			ypts = new XmiPoints();
+		}
+		return ypts;
 	}
 }

@@ -43,6 +43,11 @@ public class XmiDim {
 		return this;
 	}
 
+	public XmiDim withElems(List<Elem> elems) {
+		this.elems = elems;
+		return this;
+	}
+
 	public List<Elem> withElems() {
 		if (elems == null || elems.isEmpty()) {
 			elems = new ArrayList<>();

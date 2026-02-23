@@ -51,8 +51,22 @@ public class XmiElement {
 		return this;
 	}
 
-	public XmiElement withNonNegative() {
-		this.nonNegative = new XmiNonNegative();
+	public XmiGf withGf() {
+		if (gf == null) {
+			gf = new XmiGf();
+		}
+		return gf;
+	}
+
+	public XmiElement withNonNegative(XmiNonNegative nonNegative) {
+		this.nonNegative = nonNegative;
 		return this;
+	}
+
+	public XmiNonNegative withNonNegative() {
+		if (nonNegative == null) {
+			nonNegative = new XmiNonNegative();
+		}
+		return nonNegative;
 	}
 }

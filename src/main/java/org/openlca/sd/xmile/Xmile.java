@@ -75,13 +75,39 @@ public class Xmile {
 		return this;
 	}
 
+	public XmiHeader withHeader() {
+		if (header == null) {
+			header = new XmiHeader();
+		}
+		return header;
+	}
+
 	public Xmile withSimSpecs(XmiSimSpecs simSpecs) {
 		this.simSpecs = simSpecs;
 		return this;
 	}
 
+	public XmiSimSpecs withSimSpecs() {
+		if (simSpecs == null) {
+			simSpecs = new XmiSimSpecs();
+		}
+		return simSpecs;
+	}
+
 	public Xmile withModel(XmiModel model) {
 		this.model = model;
+		return this;
+	}
+
+	public XmiModel withModel() {
+		if (model == null) {
+			model = new XmiModel();
+		}
+		return model;
+	}
+
+	public Xmile withDims(List<XmiDim> dims) {
+		this.dims = dims;
 		return this;
 	}
 

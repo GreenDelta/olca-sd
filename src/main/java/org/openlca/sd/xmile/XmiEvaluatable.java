@@ -87,9 +87,29 @@ public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 		return (T) this;
 	}
 
+	public XmiGf withGf() {
+		if (gf == null) {
+			gf = new XmiGf();
+		}
+		return gf;
+	}
+
 	@SuppressWarnings("unchecked")
-	public T withNonNegative() {
-		this.nonNegative = new XmiNonNegative();
+	public T withNonNegative(XmiNonNegative nonNegative) {
+		this.nonNegative = nonNegative;
+		return (T) this;
+	}
+
+	public XmiNonNegative withNonNegative() {
+		if (nonNegative == null) {
+			nonNegative = new XmiNonNegative();
+		}
+		return nonNegative;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withDimensions(List<Dim> dimensions) {
+		this.dimensions = dimensions;
 		return (T) this;
 	}
 
@@ -98,6 +118,12 @@ public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 			dimensions = new ArrayList<>();
 		}
 		return dimensions;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withElements(List<XmiElement> elements) {
+		this.elements = elements;
+		return (T) this;
 	}
 
 	public List<XmiElement> withElements() {
