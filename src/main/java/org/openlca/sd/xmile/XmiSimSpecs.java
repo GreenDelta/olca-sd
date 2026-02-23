@@ -44,6 +44,31 @@ public class XmiSimSpecs {
 		return dt;
 	}
 
+	public XmiSimSpecs withMethod(String method) {
+		this.method = method;
+		return this;
+	}
+
+	public XmiSimSpecs withTimeUnits(String timeUnits) {
+		this.timeUnits = timeUnits;
+		return this;
+	}
+
+	public XmiSimSpecs withStart(Double start) {
+		this.start = start;
+		return this;
+	}
+
+	public XmiSimSpecs withStop(Double stop) {
+		this.stop = stop;
+		return this;
+	}
+
+	public XmiSimSpecs withDt(DeltaT dt) {
+		this.dt = dt;
+		return this;
+	}
+
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class DeltaT {
 
@@ -63,6 +88,16 @@ public class XmiSimSpecs {
 
 		public boolean isReciprocal() {
 			return reciprocal != null && reciprocal;
+		}
+
+		public DeltaT withReciprocal(Boolean reciprocal) {
+			this.reciprocal = reciprocal;
+			return this;
+		}
+
+		public DeltaT withValue(Double value) {
+			this.value = value;
+			return this;
 		}
 	}
 }

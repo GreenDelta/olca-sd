@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class XmiGf extends XmiVariable {
+public final class XmiGf extends XmiVariable<XmiGf> {
 
 	@XmlAttribute(name = "type")
 	XmiGfType type;
@@ -41,5 +41,30 @@ public final class XmiGf extends XmiVariable {
 
 	public XmiPoints ypts() {
 		return ypts;
+	}
+
+	public XmiGf withType(XmiGfType type) {
+		this.type = type;
+		return this;
+	}
+
+	public XmiGf withXScale(XmiMinMax xscale) {
+		this.xscale = xscale;
+		return this;
+	}
+
+	public XmiGf withXPts(XmiPoints xpts) {
+		this.xpts = xpts;
+		return this;
+	}
+
+	public XmiGf withYScale(XmiMinMax yscale) {
+		this.yscale = yscale;
+		return this;
+	}
+
+	public XmiGf withYPts(XmiPoints ypts) {
+		this.ypts = ypts;
+		return this;
 	}
 }

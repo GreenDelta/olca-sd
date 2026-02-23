@@ -20,4 +20,14 @@ public class XmiMinMax {
 	public double max() {
 		return max;
 	}
+
+	public XmiMinMax withMin(double min) {
+		this.min = min;
+		return this;
+	}
+
+	public XmiMinMax withMax(double max) {
+		this.max = max;
+		return this;
+	}
 }

@@ -22,6 +22,16 @@ public class XmiPoints {
 		return values;
 	}
 
+	public XmiPoints withSep(String sep) {
+		this.sep = sep;
+		return this;
+	}
+
+	public XmiPoints withValues(String values) {
+		this.values = values;
+		return this;
+	}
+
 	public double[] parse() {
 		if (values == null || values.isBlank())
 			return new double[0];

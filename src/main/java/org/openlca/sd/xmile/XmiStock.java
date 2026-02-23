@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class XmiStock extends XmiEvaluatable {
+public final class XmiStock extends XmiEvaluatable<XmiStock> {
 
 	@XmlElement(name = "inflow", namespace = Xmile.NS)
 	List<String> inflows;

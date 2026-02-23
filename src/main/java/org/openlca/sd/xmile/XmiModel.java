@@ -80,4 +80,18 @@ public class XmiModel {
 		}
 		return result;
 	}
+
+	public List<XmiVariable> withVariables() {
+		if (variables == null || variables.isEmpty()) {
+			variables = new ArrayList<>();
+		}
+		return variables;
+	}
+
+	public List<Object> withViews() {
+		if (views == null || views.isEmpty()) {
+			views = new ArrayList<>();
+		}
+		return views;
+	}
 }

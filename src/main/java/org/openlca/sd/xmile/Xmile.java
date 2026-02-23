@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,5 +68,27 @@ public class Xmile {
 
 	public XmiModel model() {
 		return model;
+	}
+
+	public Xmile withHeader(XmiHeader header) {
+		this.header = header;
+		return this;
+	}
+
+	public Xmile withSimSpecs(XmiSimSpecs simSpecs) {
+		this.simSpecs = simSpecs;
+		return this;
+	}
+
+	public Xmile withModel(XmiModel model) {
+		this.model = model;
+		return this;
+	}
+
+	public List<XmiDim> withDims() {
+		if (dims == null || dims.isEmpty()) {
+			dims = new ArrayList<>();
+		}
+		return dims;
 	}
 }

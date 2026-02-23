@@ -1,5 +1,6 @@
 package org.openlca.sd.xmile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -9,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 
 public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
-	extends XmiVariable
+	extends XmiVariable<T>
 	permits XmiAux, XmiFlow, XmiStock {
 
 	@XmlElement(name = "eqn", namespace = Xmile.NS)
@@ -62,6 +63,50 @@ public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 		return nonNegative != null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public T withEqn(String eqn) {
+		this.eqn = eqn;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withUnits(String units) {
+		this.units = units;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withDoc(String doc) {
+		this.doc = doc;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withGf(XmiGf gf) {
+		this.gf = gf;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withNonNegative() {
+		this.nonNegative = new XmiNonNegative();
+		return (T) this;
+	}
+
+	public List<Dim> withDimensions() {
+		if (dimensions == null || dimensions.isEmpty()) {
+			dimensions = new ArrayList<>();
+		}
+		return dimensions;
+	}
+
+	public List<XmiElement> withElements() {
+		if (elements == null || elements.isEmpty()) {
+			elements = new ArrayList<>();
+		}
+		return elements;
+	}
+
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class Dim {
 
@@ -70,6 +115,11 @@ public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 
 		public String name() {
 			return name;
+		}
+
+		public Dim withName(String name) {
+			this.name = name;
+			return this;
 		}
 	}
 }
