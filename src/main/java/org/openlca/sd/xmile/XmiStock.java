@@ -30,7 +30,7 @@ public final class XmiStock extends XmiEvaluatable<XmiStock> {
 	}
 
 	public List<String> withInflows() {
-		if (inflows == null || inflows.isEmpty()) {
+		if (inflows == null) {
 			inflows = new ArrayList<>();
 		}
 		return inflows;
@@ -42,7 +42,7 @@ public final class XmiStock extends XmiEvaluatable<XmiStock> {
 	}
 
 	public List<String> withOutflows() {
-		if (outflows == null || outflows.isEmpty()) {
+		if (outflows == null) {
 			outflows = new ArrayList<>();
 		}
 		return outflows;

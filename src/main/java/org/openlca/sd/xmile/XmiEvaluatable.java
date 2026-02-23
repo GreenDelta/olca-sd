@@ -114,7 +114,7 @@ public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 	}
 
 	public List<Dim> withDimensions() {
-		if (dimensions == null || dimensions.isEmpty()) {
+		if (dimensions == null) {
 			dimensions = new ArrayList<>();
 		}
 		return dimensions;
@@ -127,7 +127,7 @@ public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 	}
 
 	public List<XmiElement> withElements() {
-		if (elements == null || elements.isEmpty()) {
+		if (elements == null) {
 			elements = new ArrayList<>();
 		}
 		return elements;

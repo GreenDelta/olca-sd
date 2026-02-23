@@ -87,7 +87,7 @@ public class XmiModel {
 	}
 
 	public List<XmiVariable<?>> withVariables() {
-		if (variables == null || variables.isEmpty()) {
+		if (variables == null) {
 			variables = new ArrayList<>();
 		}
 		return variables;
@@ -99,7 +99,7 @@ public class XmiModel {
 	}
 
 	public List<Object> withViews() {
-		if (views == null || views.isEmpty()) {
+		if (views == null) {
 			views = new ArrayList<>();
 		}
 		return views;

@@ -49,7 +49,7 @@ public class XmiDim {
 	}
 
 	public List<Elem> withElems() {
-		if (elems == null || elems.isEmpty()) {
+		if (elems == null) {
 			elems = new ArrayList<>();
 		}
 		return elems;

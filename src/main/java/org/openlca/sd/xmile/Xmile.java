@@ -112,7 +112,7 @@ public class Xmile {
 	}
 
 	public List<XmiDim> withDims() {
-		if (dims == null || dims.isEmpty()) {
+		if (dims == null) {
 			dims = new ArrayList<>();
 		}
 		return dims;
