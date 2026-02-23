@@ -27,4 +27,19 @@ public class XmiHeader {
 	public String vendor() {
 		return vendor;
 	}
+
+	public XmiHeader withName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public XmiHeader withUuid(String uuid) {
+		this.uuid = uuid;
+		return this;
+	}
+
+	public XmiHeader withVendor(String vendor) {
+		this.vendor = vendor;
+		return this;
+	}
 }

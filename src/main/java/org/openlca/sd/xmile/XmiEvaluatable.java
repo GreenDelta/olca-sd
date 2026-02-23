@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 
-public sealed abstract class XmiEvaluatable
+public sealed abstract class XmiEvaluatable<T extends XmiEvaluatable<T>>
 	extends XmiVariable
 	permits XmiAux, XmiFlow, XmiStock {
 

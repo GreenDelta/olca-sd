@@ -1,5 +1,6 @@
 package org.openlca.sd.xmile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +33,23 @@ public class XmiDim {
 		return elems != null ? elems : Collections.emptyList();
 	}
 
+	public XmiDim withName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public XmiDim withSize(Integer size) {
+		this.size = size;
+		return this;
+	}
+
+	public List<Elem> withElems() {
+		if (elems == null || elems.isEmpty()) {
+			elems = new ArrayList<>();
+		}
+		return elems;
+	}
+
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class Elem {
 		@XmlAttribute(name = "name")
@@ -39,6 +57,11 @@ public class XmiDim {
 
 		public String name() {
 			return name;
+		}
+
+		public Elem withName(String name) {
+			this.name = name;
+			return this;
 		}
 	}
 

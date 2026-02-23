@@ -4,6 +4,5 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class XmiAux extends XmiEvaluatable {
-
+public final class XmiAux extends XmiEvaluatable<XmiAux> {
 }

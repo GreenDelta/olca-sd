@@ -36,4 +36,23 @@ public class XmiElement {
 		return nonNegative != null;
 	}
 
+	public XmiElement withSubscript(String subscript) {
+		this.subscript = subscript;
+		return this;
+	}
+
+	public XmiElement withEqn(String eqn) {
+		this.eqn = eqn;
+		return this;
+	}
+
+	public XmiElement withGf(XmiGf gf) {
+		this.gf = gf;
+		return this;
+	}
+
+	public XmiElement withNonNegative() {
+		this.nonNegative = new XmiNonNegative();
+		return this;
+	}
 }
