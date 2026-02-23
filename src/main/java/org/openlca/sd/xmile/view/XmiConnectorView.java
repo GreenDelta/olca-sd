@@ -37,4 +37,24 @@ public class XmiConnectorView {
 	public String to() {
 		return to;
 	}
+
+	public XmiConnectorView withUid(String uid) {
+		this.uid = uid;
+		return this;
+	}
+
+	public XmiConnectorView withAngle(double angle) {
+		this.angle = angle;
+		return this;
+	}
+
+	public XmiConnectorView withFrom(String from) {
+		this.from = from;
+		return this;
+	}
+
+	public XmiConnectorView withTo(String to) {
+		this.to = to;
+		return this;
+	}
 }

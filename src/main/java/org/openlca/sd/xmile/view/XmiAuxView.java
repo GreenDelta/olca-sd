@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XmiAuxView extends XmiVariableView {
+public class XmiAuxView extends XmiVariableView<XmiAuxView> {
 
 	@XmlAttribute(name = "width")
 	double width;
@@ -19,6 +19,16 @@ public class XmiAuxView extends XmiVariableView {
 
 	public double height() {
 		return height;
+	}
+
+	public XmiAuxView withWidth(double width) {
+		this.width = width;
+		return this;
+	}
+
+	public XmiAuxView withHeight(double height) {
+		this.height = height;
+		return this;
 	}
 
 }

@@ -34,4 +34,24 @@ public class XmiViewShape {
 	public Double radius() {
 		return radius;
 	}
+
+	public XmiViewShape withType(String type) {
+		this.type = type;
+		return this;
+	}
+
+	public XmiViewShape withWidth(Double width) {
+		this.width = width;
+		return this;
+	}
+
+	public XmiViewShape withHeight(Double height) {
+		this.height = height;
+		return this;
+	}
+
+	public XmiViewShape withRadius(Double radius) {
+		this.radius = radius;
+		return this;
+	}
 }

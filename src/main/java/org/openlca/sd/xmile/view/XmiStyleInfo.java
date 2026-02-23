@@ -2,7 +2,7 @@ package org.openlca.sd.xmile.view;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 
-public abstract class XmiStyleInfo {
+public abstract class XmiStyleInfo<T extends XmiStyleInfo<T>> {
 
 	@XmlAttribute(name = "color")
 	String color;
@@ -51,6 +51,48 @@ public abstract class XmiStyleInfo {
 
 	public String labelSide() {
 		return labelSide;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withColor(String color) {
+		this.color = color;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withBackground(String background) {
+		this.background = background;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withFontSize(String fontSize) {
+		this.fontSize = fontSize;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withFontColor(String fontColor) {
+		this.fontColor = fontColor;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withPadding(Integer padding) {
+		this.padding = padding;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T withLabelSide(String labelSide) {
+		this.labelSide = labelSide;
+		return (T) this;
 	}
 
 }

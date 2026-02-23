@@ -49,4 +49,34 @@ public class XmiTextBoxView implements XmiViewPoint {
 	public String text() {
 		return text;
 	}
+
+	public XmiTextBoxView withUid(String uid) {
+		this.uid = uid;
+		return this;
+	}
+
+	public XmiTextBoxView withX(double x) {
+		this.x = x;
+		return this;
+	}
+
+	public XmiTextBoxView withY(double y) {
+		this.y = y;
+		return this;
+	}
+
+	public XmiTextBoxView withWidth(double width) {
+		this.width = width;
+		return this;
+	}
+
+	public XmiTextBoxView withHeight(double height) {
+		this.height = height;
+		return this;
+	}
+
+	public XmiTextBoxView withText(String text) {
+		this.text = text;
+		return this;
+	}
 }
