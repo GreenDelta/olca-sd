@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.vars.Var;
-import org.openlca.sd.vars.Var.Auxil;
-import org.openlca.sd.vars.Var.Stock;
 import org.openlca.sd.eqn.cells.Cell;
 import org.openlca.sd.eqn.cells.NonNegativeCell;
 import org.openlca.sd.eqn.cells.NumCell;
@@ -19,6 +16,9 @@ import org.openlca.sd.eqn.func.Mul;
 import org.openlca.sd.eqn.func.NonNeg;
 import org.openlca.sd.eqn.func.Sub;
 import org.openlca.sd.eqn.func.Sum;
+import org.openlca.sd.vars.Auxil;
+import org.openlca.sd.vars.Stock;
+import org.openlca.sd.vars.Var;
 import org.openlca.sd.vars.Vars;
 import org.openlca.sd.xmile.Xmile;
 

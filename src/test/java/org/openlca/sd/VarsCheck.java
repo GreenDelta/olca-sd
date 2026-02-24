@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import org.openlca.sd.eqn.EvaluationOrder;
 import org.openlca.sd.eqn.Id;
-import org.openlca.sd.vars.Var.Stock;
+import org.openlca.sd.vars.Stock;
 import org.openlca.sd.vars.Vars;
 import org.openlca.sd.xmile.Xmile;
 
