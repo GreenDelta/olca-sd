@@ -69,7 +69,7 @@ public class Vars {
 
 			var vars = new ArrayList<Var>();
 			for (var v : model.variables()) {
-				if (!(v instanceof XmiEvaluatable eva))
+				if (!(v instanceof XmiEvaluatable<?> eva))
 					continue;
 				var cell = cellOf(eva);
 				if (cell.isError())
@@ -98,7 +98,7 @@ public class Vars {
 			return Res.ok(vars);
 		}
 
-		private Res<Cell> cellOf(XmiEvaluatable v) {
+		private Res<Cell> cellOf(XmiEvaluatable<?> v) {
 			if (v == null)
 				return Res.error("variable is null");
 
@@ -151,7 +151,7 @@ public class Vars {
 				: Res.ok(Optional.of(new EqnCell(eqn)));
 		}
 
-		private Res<Optional<Tensor>> tensorOf(XmiEvaluatable x) {
+		private Res<Optional<Tensor>> tensorOf(XmiEvaluatable<?> x) {
 			if (x.dimensions().isEmpty())
 				return Res.ok(Optional.empty());
 			var dims = dimsOf(x);
@@ -183,7 +183,7 @@ public class Vars {
 			return Res.ok(Optional.of(tensor));
 		}
 
-		private Res<List<Dimension>> dimsOf(XmiEvaluatable v) {
+		private Res<List<Dimension>> dimsOf(XmiEvaluatable<?> v) {
 			var dims = new ArrayList<Dimension>();
 			for (var d : v.dimensions()) {
 				var dim = dimensions.get(Id.of(d.name()));
