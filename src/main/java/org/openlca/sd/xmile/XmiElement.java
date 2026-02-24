@@ -24,16 +24,32 @@ public class XmiElement {
 		return subscript;
 	}
 
+	public void setSubscript(String subscript) {
+		this.subscript = subscript;
+	}
+
 	public String eqn() {
 		return eqn;
+	}
+
+	public void setEqn(String eqn) {
+		this.eqn = eqn;
 	}
 
 	public XmiGf gf() {
 		return gf;
 	}
 
+	public void setGf(XmiGf gf) {
+		this.gf = gf;
+	}
+
 	public boolean isNonNegative() {
 		return nonNegative != null;
+	}
+
+	public void setNonNegative(XmiNonNegative nonNegative) {
+		this.nonNegative = nonNegative;
 	}
 
 }

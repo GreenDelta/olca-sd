@@ -12,4 +12,8 @@ public sealed abstract class XmiVariable
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

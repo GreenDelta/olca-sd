@@ -36,6 +36,10 @@ public class XmiModel {
 		return variables == null ? Collections.emptyList() : variables;
 	}
 
+	public void setVariables(List<XmiVariable> variables) {
+		this.variables = variables;
+	}
+
 	public List<XmiStock> stocks() {
 		return filter(XmiStock.class);
 	}
@@ -58,6 +62,10 @@ public class XmiModel {
 			: views.stream().filter(XmiView.class::isInstance)
 			.map(XmiView.class::cast)
 			.toList();
+	}
+
+	public void setViews(List<Object> views) {
+		this.views = views;
 	}
 
 	public XmiViewStyle style() {

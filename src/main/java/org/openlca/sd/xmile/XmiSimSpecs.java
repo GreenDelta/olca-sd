@@ -28,20 +28,40 @@ public class XmiSimSpecs {
 		return method;
 	}
 
+	public void setMethod(String method) {
+		this.method = method;
+	}
+
 	public String timeUnits() {
 		return timeUnits;
+	}
+
+	public void setTimeUnits(String timeUnits) {
+		this.timeUnits = timeUnits;
 	}
 
 	public Double start() {
 		return start;
 	}
 
+	public void setStart(Double start) {
+		this.start = start;
+	}
+
 	public Double stop() {
 		return stop;
 	}
 
+	public void setStop(Double stop) {
+		this.stop = stop;
+	}
+
 	public DeltaT dt() {
 		return dt;
+	}
+
+	public void setDt(DeltaT dt) {
+		this.dt = dt;
 	}
 
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -57,8 +77,16 @@ public class XmiSimSpecs {
 			return reciprocal;
 		}
 
+		public void setReciprocal(Boolean reciprocal) {
+			this.reciprocal = reciprocal;
+		}
+
 		public Double value() {
 			return value;
+		}
+
+		public void setValue(Double value) {
+			this.value = value;
 		}
 
 		public boolean isReciprocal() {

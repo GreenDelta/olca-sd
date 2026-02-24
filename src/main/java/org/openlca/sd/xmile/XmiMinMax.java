@@ -17,7 +17,15 @@ public class XmiMinMax {
 		return min;
 	}
 
+	public void setMin(double min) {
+		this.min = min;
+	}
+
 	public double max() {
 		return max;
+	}
+
+	public void setMax(double max) {
+		this.max = max;
 	}
 }

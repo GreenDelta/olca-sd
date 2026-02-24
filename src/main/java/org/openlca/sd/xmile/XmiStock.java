@@ -19,7 +19,15 @@ public final class XmiStock extends XmiEvaluatable {
 		return inflows != null ? inflows : List.of();
 	}
 
+	public void setInflows(List<String> inflows) {
+		this.inflows = inflows;
+	}
+
 	public List<String> outflows() {
 		return outflows != null ? outflows : List.of();
+	}
+
+	public void setOutflows(List<String> outflows) {
+		this.outflows = outflows;
 	}
 }

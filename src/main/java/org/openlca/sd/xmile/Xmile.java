@@ -57,15 +57,31 @@ public class Xmile {
 		return header;
 	}
 
+	public void setHeader(XmiHeader header) {
+		this.header = header;
+	}
+
 	public XmiSimSpecs simSpecs() {
 		return simSpecs;
+	}
+
+	public void setSimSpecs(XmiSimSpecs simSpecs) {
+		this.simSpecs = simSpecs;
 	}
 
 	public List<XmiDim> dims() {
 		return dims != null ? dims : Collections.emptyList();
 	}
 
+	public void setDims(List<XmiDim> dims) {
+		this.dims = dims;
+	}
+
 	public XmiModel model() {
 		return model;
+	}
+
+	public void setModel(XmiModel model) {
+		this.model = model;
 	}
 }

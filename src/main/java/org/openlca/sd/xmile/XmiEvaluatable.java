@@ -38,28 +38,56 @@ public sealed abstract class XmiEvaluatable
 		return eqn;
 	}
 
+	public void setEqn(String eqn) {
+		this.eqn = eqn;
+	}
+
 	public String units() {
 		return units;
+	}
+
+	public void setUnits(String units) {
+		this.units = units;
 	}
 
 	public String doc() {
 		return doc;
 	}
 
+	public void setDoc(String doc) {
+		this.doc = doc;
+	}
+
 	public XmiGf gf() {
 		return gf;
+	}
+
+	public void setGf(XmiGf gf) {
+		this.gf = gf;
 	}
 
 	public List<Dim> dimensions() {
 		return dimensions == null ? List.of() : dimensions;
 	}
 
+	public void setDimensions(List<Dim> dimensions) {
+		this.dimensions = dimensions;
+	}
+
 	public List<XmiElement> elements() {
 		return elements != null ? elements : List.of();
 	}
 
+	public void setElements(List<XmiElement> elements) {
+		this.elements = elements;
+	}
+
 	public boolean isNonNegative() {
 		return nonNegative != null;
+	}
+
+	public void setNonNegative(XmiNonNegative nonNegative) {
+		this.nonNegative = nonNegative;
 	}
 
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -70,6 +98,10 @@ public sealed abstract class XmiEvaluatable
 
 		public String name() {
 			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 	}
 }

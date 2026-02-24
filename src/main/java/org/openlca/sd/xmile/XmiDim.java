@@ -24,12 +24,24 @@ public class XmiDim {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public int size() {
 		return size != null ? size : elems().size();
 	}
 
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
 	public List<Elem> elems() {
 		return elems != null ? elems : Collections.emptyList();
+	}
+
+	public void setElems(List<Elem> elems) {
+		this.elems = elems;
 	}
 
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -40,6 +52,9 @@ public class XmiDim {
 		public String name() {
 			return name;
 		}
-	}
 
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
 }

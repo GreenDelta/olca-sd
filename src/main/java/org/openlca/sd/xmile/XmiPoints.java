@@ -18,8 +18,16 @@ public class XmiPoints {
 		return sep;
 	}
 
+	public void setSep(String sep) {
+		this.sep = sep;
+	}
+
 	public String values() {
 		return values;
+	}
+
+	public void setValues(String values) {
+		this.values = values;
 	}
 
 	public double[] parse() {
