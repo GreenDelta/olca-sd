@@ -106,12 +106,12 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 
 		@Override
 		public boolean hasNext() {
-			return !time.isFinished();
+			return !isInitialized || time.timeAt(iteration) < time.end();
 		}
 
 		@Override
 		public Res<SimulationState> next() {
-			if (time.isFinished()) {
+			if (!hasNext()) {
 				throw new IllegalStateException("simulation finished");
 			}
 			return !isInitialized
@@ -121,7 +121,8 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 
 		private Res<SimulationState> initialize() {
 			isInitialized = true;
-			timeVar.pushValue(Cell.of(time.start()));
+			double t = time.start();
+			timeVar.pushValue(Cell.of(t));
 
 			for (var v : vars) {
 				var res = v.def().eval(interpreter);
@@ -136,7 +137,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 					evalVars.add(v);
 				}
 			}
-			return Res.ok(new SimulationState(0, time.current(), state));
+			return Res.ok(new SimulationState(0, t, state));
 		}
 
 		private Res<SimulationState> nextState() {
@@ -193,8 +194,9 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 			}
 
 			iteration++;
-			timeVar.pushValue(Cell.of(time.next()));
-			return Res.ok(new SimulationState(iteration, time.current(), state));
+			double t = time.timeAt(iteration);
+			timeVar.pushValue(Cell.of(t));
+			return Res.ok(new SimulationState(iteration, t, state));
 		}
 
 		private Res<Cell> flowDelta(Cell stock, Id flowId) {
