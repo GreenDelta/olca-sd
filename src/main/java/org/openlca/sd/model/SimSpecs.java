@@ -3,17 +3,17 @@ package org.openlca.sd.model;
 import org.openlca.commons.Res;
 import org.openlca.sd.xmile.Xmile;
 
-public class TimeSeq {
+public class SimSpecs {
 
 	private double start;
 	private double end;
 	private double dt;
 	private String unit;
 
-	public TimeSeq() {
+	public SimSpecs() {
 	}
 
-	static Res<TimeSeq> of(Xmile xmile) {
+	static Res<SimSpecs> of(Xmile xmile) {
 		if (xmile == null || xmile.simSpecs() == null)
 			return Res.error("no sim-specs provided");
 		var specs = xmile.simSpecs();
@@ -24,28 +24,24 @@ public class TimeSeq {
 
 		var unit = specs.timeUnits();
 		if (specs.dt() == null || specs.dt().value() == null)
-			return Res.ok(new TimeSeq(specs.start(), specs.stop(), unit));
+			return Res.ok(new SimSpecs(specs.start(), specs.stop(), unit));
 
 		double dt = specs.dt().value();
 		var seq =  specs.dt().isReciprocal()
-			? new TimeSeq(specs.start(), specs.stop(), 1 / dt, unit)
-			: new TimeSeq(specs.start(), specs.stop(), dt, unit);
+			? new SimSpecs(specs.start(), specs.stop(), 1 / dt, unit)
+			: new SimSpecs(specs.start(), specs.stop(), dt, unit);
 		return Res.ok(seq);
 	}
 
-	public TimeSeq(double start, double end, double dt, String unit) {
+	public SimSpecs(double start, double end, double dt, String unit) {
 		this.start = start;
 		this.end = end;
 		this.dt = dt;
 		this.unit = unit;
 	}
 
-	public TimeSeq(double start, double end, String unit) {
+	public SimSpecs(double start, double end, String unit) {
 		this(start, end, 1, unit);
-	}
-
-	public double timeAt(int iteration) {
-		return start + iteration * dt;
 	}
 
 	public double start() {

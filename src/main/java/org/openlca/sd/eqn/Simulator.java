@@ -15,9 +15,9 @@ import org.openlca.sd.eqn.func.Sum;
 import org.openlca.sd.model.Auxil;
 import org.openlca.sd.model.Id;
 import org.openlca.sd.model.SdModel;
+import org.openlca.sd.model.SimSpecs;
 import org.openlca.sd.model.Stock;
 import org.openlca.sd.model.Tensor;
-import org.openlca.sd.model.TimeSeq;
 import org.openlca.sd.model.Var;
 import org.openlca.sd.model.cells.Cell;
 import org.openlca.sd.model.cells.NonNegativeCell;
@@ -76,7 +76,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 		private final List<Stock> stocks = new ArrayList<>();
 		private final List<Var> evalVars = new ArrayList<>();
 
-		private Simulation(TimeSeq time, List<Var> vars) {
+		private Simulation(SimSpecs time, List<Var> vars) {
 			this.start = time.start();
 			this.end = time.end();
 			this.dt = time.dt();

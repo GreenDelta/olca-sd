@@ -5,8 +5,8 @@ import java.util.HashSet;
 
 import org.openlca.sd.eqn.EvaluationOrder;
 import org.openlca.sd.model.Id;
+import org.openlca.sd.model.SdModel;
 import org.openlca.sd.model.Stock;
-import org.openlca.sd.model.Vars;
 import org.openlca.sd.xmile.Xmile;
 
 public class VarsCheck {
@@ -16,7 +16,7 @@ public class VarsCheck {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var model = Vars.readFrom(xmile).orElseThrow();
+		var model = SdModel.readFrom(xmile).orElseThrow();
 		var vars = model.vars();
 
 		var ids = new HashSet<Id>();

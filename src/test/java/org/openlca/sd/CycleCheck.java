@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.openlca.sd.eqn.EvaluationOrder;
 import org.openlca.sd.model.Id;
-import org.openlca.sd.model.Vars;
+import org.openlca.sd.model.SdModel;
 import org.openlca.sd.xmile.Xmile;
 
 public class CycleCheck {
@@ -18,8 +18,9 @@ public class CycleCheck {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var model = Vars.readFrom(xmile).orElseThrow();
-		var vars = model.vars();
+		var vars = SdModel.readFrom(xmile)
+			.orElseThrow()
+			.vars();
 
 		var deps = new HashMap<Id, Set<Id>>();
 		for (var v : vars) {
@@ -53,7 +54,7 @@ public class CycleCheck {
 				checkCycles(child, deps, path, visited);
 			}
 		}
-		path.remove(path.size() - 1);
+		path.removeLast();
 	}
 
 }

@@ -3,7 +3,7 @@ package org.openlca.sd;
 import java.io.File;
 
 import org.openlca.sd.eqn.EvaluationOrder;
-import org.openlca.sd.model.Vars;
+import org.openlca.sd.model.SdModel;
 import org.openlca.sd.xmile.Xmile;
 
 public class VarsGraph {
@@ -12,10 +12,10 @@ public class VarsGraph {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var model = Vars
+		var vars = SdModel
 			.readFrom(xmile)
-			.orElseThrow();
-		var vars = model.vars();
+			.orElseThrow()
+			.vars();
 
 		System.out.println("digraph g {");
 		for (var v : vars) {
