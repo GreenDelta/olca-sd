@@ -3,12 +3,15 @@ package org.openlca.sd.model;
 import org.openlca.commons.Res;
 import org.openlca.sd.xmile.Xmile;
 
-public final class TimeSeq {
+public class TimeSeq {
 
-	private final double start;
-	private final double end;
-	private final double dt;
-	private final String unit;
+	private double start;
+	private double end;
+	private double dt;
+	private String unit;
+
+	public TimeSeq() {
+	}
 
 	static Res<TimeSeq> of(Xmile xmile) {
 		if (xmile == null || xmile.simSpecs() == null)
@@ -49,16 +52,32 @@ public final class TimeSeq {
 		return start;
 	}
 
+	public void setStart(double start) {
+		this.start = start;
+	}
+
 	public double end() {
 		return end;
+	}
+
+	public void setEnd(double end) {
+		this.end = end;
 	}
 
 	public double dt() {
 		return dt;
 	}
 
+	public void setDt(double dt) {
+		this.dt = dt;
+	}
+
 	public String unit() {
 		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
 	public int iterationCount() {

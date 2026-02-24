@@ -7,13 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.model.SdModel;
-import org.openlca.sd.model.Tensor;
-import org.openlca.sd.model.TimeSeq;
-import org.openlca.sd.model.cells.Cell;
-import org.openlca.sd.model.cells.NonNegativeCell;
-import org.openlca.sd.model.cells.NumCell;
-import org.openlca.sd.model.cells.TensorCell;
 import org.openlca.sd.eqn.func.Add;
 import org.openlca.sd.eqn.func.Mul;
 import org.openlca.sd.eqn.func.NonNeg;
@@ -21,9 +14,15 @@ import org.openlca.sd.eqn.func.Sub;
 import org.openlca.sd.eqn.func.Sum;
 import org.openlca.sd.model.Auxil;
 import org.openlca.sd.model.Id;
+import org.openlca.sd.model.SdModel;
 import org.openlca.sd.model.Stock;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.TimeSeq;
 import org.openlca.sd.model.Var;
-import org.openlca.sd.model.Vars;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.NonNegativeCell;
+import org.openlca.sd.model.cells.NumCell;
+import org.openlca.sd.model.cells.TensorCell;
 import org.openlca.sd.xmile.Xmile;
 
 public class Simulator implements Iterable<Res<SimulationState>> {
@@ -60,13 +59,16 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 
 	public static class Simulation implements Iterator<Res<SimulationState>> {
 
-		private final TimeSeq time;
+		private final double start;
+		private final double end;
+		private final double dt;
+
 		private final List<Var> vars;
 		private final Map<Id, Var> state;
 
 		private final EvalContext ctx;
 		private final Auxil timeVar;
-		private final Cell dt;
+		private final Cell dtCell;
 		private final Interpreter interpreter;
 
 		private boolean isInitialized = false;
@@ -75,7 +77,10 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 		private final List<Var> evalVars = new ArrayList<>();
 
 		private Simulation(TimeSeq time, List<Var> vars) {
-			this.time = time;
+			this.start = time.start();
+			this.end = time.end();
+			this.dt = time.dt();
+
 			this.vars = vars;
 			this.state = new HashMap<>();
 			for (var v : vars) {
@@ -85,13 +90,13 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 			ctx = new EvalContext();
 			ctx.bind("INF", Double.POSITIVE_INFINITY);
 			ctx.bind("PI", Math.PI);
-			ctx.bind("DT", time.dt());
-			ctx.bind("STARTTIME", time.start());
-			ctx.bind("STOPTIME", time.end());
+			ctx.bind("DT", dt);
+			ctx.bind("STARTTIME", start);
+			ctx.bind("STOPTIME", end);
 			// TODO: bind top-level lookup functions
 
-			timeVar = new Auxil(Id.of("TIME"), Cell.of(time.start()), time.unit());
-			dt = Cell.of(time.dt());
+			timeVar = new Auxil(Id.of("TIME"), Cell.of(start), time.unit());
+			dtCell = Cell.of(dt);
 			ctx.bind(timeVar);
 			for (var v : vars) {
 				ctx.bind(v);
@@ -106,7 +111,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 
 		@Override
 		public boolean hasNext() {
-			return !isInitialized || time.timeAt(iteration) < time.end();
+			return !isInitialized || timeAt(iteration) < end;
 		}
 
 		@Override
@@ -115,20 +120,23 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 				throw new IllegalStateException("simulation finished");
 			}
 			return !isInitialized
-					? initialize()
-					: nextState();
+				? initialize()
+				: nextState();
+		}
+
+		private double timeAt(int iteration) {
+			return start + iteration * dt;
 		}
 
 		private Res<SimulationState> initialize() {
 			isInitialized = true;
-			double t = time.start();
-			timeVar.pushValue(Cell.of(t));
+			timeVar.pushValue(Cell.of(start));
 
 			for (var v : vars) {
 				var res = v.def().eval(interpreter);
 				if (res.isError()) {
 					return res.wrapError("Initialization of variable '"
-							+ v.name().label() + "' failed");
+						+ v.name().label() + "' failed");
 				}
 				v.pushValue(res.value());
 				if (v instanceof Stock stock) {
@@ -137,7 +145,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 					evalVars.add(v);
 				}
 			}
-			return Res.ok(new SimulationState(0, t, state));
+			return Res.ok(new SimulationState(0, start, state));
 		}
 
 		private Res<SimulationState> nextState() {
@@ -155,7 +163,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 					var nextVal = Add.apply(stockVal, flowDelta.value());
 					if (nextVal.isError()) {
 						return nextVal.wrapError("Failed to add flow " + flowId
-								+ " to stock " + stock.name());
+							+ " to stock " + stock.name());
 					}
 					stockVal = nextVal.value();
 				}
@@ -169,7 +177,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 					var nextVal = Sub.apply(stockVal, flowDelta.value());
 					if (nextVal.isError()) {
 						return nextVal.wrapError("Failed to subtract out-flow " + flowId
-								+ " from stock " + stock.name());
+							+ " from stock " + stock.name());
 					}
 					stockVal = nextVal.value();
 				}
@@ -178,7 +186,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 					var nonNeg = new NonNeg().apply(List.of(stockVal));
 					if (nonNeg.isError()) {
 						return nonNeg.wrapError(
-								"Failed to apply NonNeg on stock " + stock.name());
+							"Failed to apply NonNeg on stock " + stock.name());
 					}
 					stockVal = nonNeg.value();
 				}
@@ -194,7 +202,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 			}
 
 			iteration++;
-			double t = time.timeAt(iteration);
+			double t = timeAt(iteration);
 			timeVar.pushValue(Cell.of(t));
 			return Res.ok(new SimulationState(iteration, t, state));
 		}
@@ -203,7 +211,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 			var flow = ctx.getVar(flowId).orElse(null);
 			if (flow == null)
 				return Res.error("Flow is not defined: " + flowId);
-			var res = Mul.apply(flow.value(), dt);
+			var res = Mul.apply(flow.value(), dtCell);
 			if (res.isError())
 				return res.wrapError("Failed to calculate: " + flowId + " * dt");
 			var cell = res.value();
