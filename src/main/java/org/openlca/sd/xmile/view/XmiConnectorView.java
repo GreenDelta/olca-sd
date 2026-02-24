@@ -26,15 +26,31 @@ public class XmiConnectorView {
 		return uid;
 	}
 
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	public double angle() {
 		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 
 	public String from() {
 		return from;
 	}
 
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
 	public String to() {
 		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
 	}
 }

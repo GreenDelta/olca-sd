@@ -28,19 +28,39 @@ public class XmiViewStyle extends XmiStyleInfo {
 		return flowStyle;
 	}
 
+	public void setFlowStyle(XmiElementStyle flowStyle) {
+		this.flowStyle = flowStyle;
+	}
+
 	public XmiElementStyle stockStyle() {
 		return stockStyle;
+	}
+
+	public void setStockStyle(XmiElementStyle stockStyle) {
+		this.stockStyle = stockStyle;
 	}
 
 	public XmiElementStyle auxStyle() {
 		return auxStyle;
 	}
 
+	public void setAuxStyle(XmiElementStyle auxStyle) {
+		this.auxStyle = auxStyle;
+	}
+
 	public XmiElementStyle textBoxStyle() {
 		return textBoxStyle;
 	}
 
+	public void setTextBoxStyle(XmiElementStyle textBoxStyle) {
+		this.textBoxStyle = textBoxStyle;
+	}
+
 	public XmiElementStyle connectorStyle() {
 		return connectorStyle;
+	}
+
+	public void setConnectorStyle(XmiElementStyle connectorStyle) {
+		this.connectorStyle = connectorStyle;
 	}
 }

@@ -43,36 +43,72 @@ public class XmiView {
 		return stocks == null ? List.of() : stocks;
 	}
 
+	public void setStocks(List<XmiStockView> stocks) {
+		this.stocks = stocks;
+	}
+
 	public List<XmiAuxView> auxiliaries() {
 		return auxiliaries == null ? List.of() : auxiliaries;
+	}
+
+	public void setAuxiliaries(List<XmiAuxView> auxiliaries) {
+		this.auxiliaries = auxiliaries;
 	}
 
 	public List<XmiTextBoxView> textBoxes() {
 		return textBoxes == null ? List.of() : textBoxes;
 	}
 
+	public void setTextBoxes(List<XmiTextBoxView> textBoxes) {
+		this.textBoxes = textBoxes;
+	}
+
 	public List<XmiFlowView> flows() {
 		return flows == null ? List.of() : flows;
+	}
+
+	public void setFlows(List<XmiFlowView> flows) {
+		this.flows = flows;
 	}
 
 	public List<XmiConnectorView> connectors() {
 		return connectors == null ? List.of() : connectors;
 	}
 
+	public void setConnectors(List<XmiConnectorView> connectors) {
+		this.connectors = connectors;
+	}
+
 	public Integer pageWidth() {
 		return pageWidth;
+	}
+
+	public void setPageWidth(Integer pageWidth) {
+		this.pageWidth = pageWidth;
 	}
 
 	public Integer pageHeight() {
 		return pageHeight;
 	}
 
+	public void setPageHeight(Integer pageHeight) {
+		this.pageHeight = pageHeight;
+	}
+
 	public Integer zoom() {
 		return zoom;
 	}
 
+	public void setZoom(Integer zoom) {
+		this.zoom = zoom;
+	}
+
 	public XmiViewStyle style() {
 		return style;
+	}
+
+	public void setStyle(XmiViewStyle style) {
+		this.style = style;
 	}
 
 }

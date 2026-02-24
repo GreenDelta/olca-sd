@@ -22,6 +22,10 @@ public class XmiFlowView extends XmiVariableView {
 		return pts != null ? pts : Collections.emptyList();
 	}
 
+	public void setPts(List<Pt> pts) {
+		this.pts = pts;
+	}
+
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class Pt implements XmiViewPoint {
 
@@ -35,8 +39,16 @@ public class XmiFlowView extends XmiVariableView {
 			return x;
 		}
 
+		public void setX(double x) {
+			this.x = x;
+		}
+
 		public double y() {
 			return y;
+		}
+
+		public void setY(double y) {
+			this.y = y;
 		}
 	}
 }

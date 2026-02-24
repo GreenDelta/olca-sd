@@ -23,15 +23,31 @@ public class XmiViewShape {
 		return type;
 	}
 
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public Double width() {
 		return width;
+	}
+
+	public void setWidth(Double width) {
+		this.width = width;
 	}
 
 	public Double height() {
 		return height;
 	}
 
+	public void setHeight(Double height) {
+		this.height = height;
+	}
+
 	public Double radius() {
 		return radius;
+	}
+
+	public void setRadius(Double radius) {
+		this.radius = radius;
 	}
 }

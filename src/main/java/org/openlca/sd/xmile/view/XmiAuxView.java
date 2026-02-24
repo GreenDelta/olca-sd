@@ -17,8 +17,15 @@ public class XmiAuxView extends XmiVariableView {
 		return width;
 	}
 
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
 	public double height() {
 		return height;
 	}
 
+	public void setHeight(double height) {
+		this.height = height;
+	}
 }

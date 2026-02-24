@@ -29,28 +29,56 @@ public abstract class XmiStyleInfo {
 		return color;
 	}
 
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	public String background() {
 		return background;
+	}
+
+	public void setBackground(String background) {
+		this.background = background;
 	}
 
 	public String fontSize() {
 		return fontSize;
 	}
 
+	public void setFontSize(String fontSize) {
+		this.fontSize = fontSize;
+	}
+
 	public String fontFamily() {
 		return fontFamily;
+	}
+
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
 	}
 
 	public String fontColor() {
 		return fontColor;
 	}
 
+	public void setFontColor(String fontColor) {
+		this.fontColor = fontColor;
+	}
+
 	public Integer padding() {
 		return padding;
 	}
 
+	public void setPadding(Integer padding) {
+		this.padding = padding;
+	}
+
 	public String labelSide() {
 		return labelSide;
+	}
+
+	public void setLabelSide(String labelSide) {
+		this.labelSide = labelSide;
 	}
 
 }

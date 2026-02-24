@@ -15,4 +15,8 @@ public class XmiElementStyle extends XmiStyleInfo {
 	public XmiViewShape shape() {
 		return shape;
 	}
+
+	public void setShape(XmiViewShape shape) {
+		this.shape = shape;
+	}
 }
