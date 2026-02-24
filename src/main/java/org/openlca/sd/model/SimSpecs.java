@@ -1,8 +1,5 @@
 package org.openlca.sd.model;
 
-import org.openlca.commons.Res;
-import org.openlca.sd.xmile.Xmile;
-
 public class SimSpecs {
 
 	private double start;
@@ -11,26 +8,6 @@ public class SimSpecs {
 	private String unit;
 
 	public SimSpecs() {
-	}
-
-	static Res<SimSpecs> of(Xmile xmile) {
-		if (xmile == null || xmile.simSpecs() == null)
-			return Res.error("no sim-specs provided");
-		var specs = xmile.simSpecs();
-		if (specs.start() == null)
-			return Res.error("no start time provided");
-		if (specs.stop() == null)
-			return Res.error("no end time provided");
-
-		var unit = specs.timeUnits();
-		if (specs.dt() == null || specs.dt().value() == null)
-			return Res.ok(new SimSpecs(specs.start(), specs.stop(), unit));
-
-		double dt = specs.dt().value();
-		var seq =  specs.dt().isReciprocal()
-			? new SimSpecs(specs.start(), specs.stop(), 1 / dt, unit)
-			: new SimSpecs(specs.start(), specs.stop(), dt, unit);
-		return Res.ok(seq);
 	}
 
 	public SimSpecs(double start, double end, double dt, String unit) {

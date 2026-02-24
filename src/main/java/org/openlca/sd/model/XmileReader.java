@@ -55,7 +55,7 @@ class XmileReader {
 		if (xmiModel == null)
 			return Res.error("no model found");
 
-		var time = SimSpecs.of(xmile);
+		var time = simSpecsOf(xmile);
 		if (time.isError())
 			return time.castError();
 		model.setTime(time.value());
@@ -88,6 +88,26 @@ class XmileReader {
 			}
 		}
 		return Res.ok(model);
+	}
+
+	private Res<SimSpecs> simSpecsOf(Xmile xmile) {
+		if (xmile == null || xmile.simSpecs() == null)
+			return Res.error("no sim-specs provided");
+		var specs = xmile.simSpecs();
+		if (specs.start() == null)
+			return Res.error("no start time provided");
+		if (specs.stop() == null)
+			return Res.error("no end time provided");
+
+		var unit = specs.timeUnits();
+		if (specs.dt() == null || specs.dt().value() == null)
+			return Res.ok(new SimSpecs(specs.start(), specs.stop(), unit));
+
+		double dt = specs.dt().value();
+		var seq = specs.dt().isReciprocal()
+				? new SimSpecs(specs.start(), specs.stop(), 1 / dt, unit)
+				: new SimSpecs(specs.start(), specs.stop(), dt, unit);
+		return Res.ok(seq);
 	}
 
 	private Res<Cell> cellOf(XmiEvaluatable v) {
