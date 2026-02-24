@@ -23,6 +23,18 @@ public class LookupFunc {
 		this.n = Math.min(this.xs.length, this.ys.length);
 	}
 
+	public Type type() {
+		return type;
+	}
+
+	public double[] xs() {
+		return xs;
+	}
+
+	public double[] ys() {
+		return ys;
+	}
+
 	public LookupFunc(Type type, double start, double end, double[] ys) {
 		this(type, scale(start, end, ys != null ? ys.length : 0), ys);
 	}
