@@ -1,9 +1,10 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.vars;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.openlca.sd.eqn.Id;
 import org.openlca.sd.eqn.cells.Cell;
 
 public sealed interface Var {
@@ -30,22 +31,22 @@ public sealed interface Var {
 				: values().getLast();
 	}
 
-	record Aux(
+	record Auxil(
 			Id name, Cell def, String unit, List<Cell> values) implements Var {
 
-		public Aux {
+		public Auxil {
 			Objects.requireNonNull(name);
 			Objects.requireNonNull(def);
 			Objects.requireNonNull(values);
 		}
 
-		public Aux(Id name, Cell def, String unit) {
+		public Auxil(Id name, Cell def, String unit) {
 			this(name, def, unit, new ArrayList<>());
 		}
 
 		@Override
-		public Aux freshCopy() {
-			return new Aux(name, def, unit);
+		public Auxil freshCopy() {
+			return new Auxil(name, def, unit);
 		}
 	}
 

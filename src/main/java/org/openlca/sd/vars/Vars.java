@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.vars;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,10 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.openlca.commons.Res;
+import org.openlca.sd.eqn.Dimension;
+import org.openlca.sd.eqn.Id;
+import org.openlca.sd.eqn.LookupFunc;
 import org.openlca.sd.eqn.LookupFunc.Type;
-import org.openlca.sd.eqn.Var.Aux;
-import org.openlca.sd.eqn.Var.Rate;
-import org.openlca.sd.eqn.Var.Stock;
+import org.openlca.sd.eqn.Subscript;
+import org.openlca.sd.eqn.Tensor;
+import org.openlca.sd.vars.Var.Auxil;
+import org.openlca.sd.vars.Var.Rate;
+import org.openlca.sd.vars.Var.Stock;
 import org.openlca.sd.eqn.cells.Cell;
 import org.openlca.sd.eqn.cells.EqnCell;
 import org.openlca.sd.eqn.cells.LookupCell;
@@ -77,7 +82,7 @@ public class Vars {
 
 				switch (eva) {
 					case XmiAux ignored -> {
-						var aux = new Aux(Id.of(eva.name()), cell.value(), eva.units());
+						var aux = new Auxil(Id.of(eva.name()), cell.value(), eva.units());
 						vars.add(aux);
 					}
 					case XmiFlow ignored -> {

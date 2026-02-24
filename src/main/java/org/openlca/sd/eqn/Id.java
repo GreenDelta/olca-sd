@@ -66,7 +66,7 @@ public class Id {
 		return ids;
 	}
 
-	static List<Id> allOf(List<String> ss) {
+	public static List<Id> allOf(List<String> ss) {
 		if (ss == null || ss.isEmpty())
 			return List.of();
 		var list = new ArrayList<Id>(ss.size());

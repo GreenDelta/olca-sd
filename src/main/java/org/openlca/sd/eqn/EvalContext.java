@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.openlca.sd.vars.Var;
+import org.openlca.sd.vars.Var.Auxil;
 import org.openlca.sd.eqn.cells.Cell;
 import org.openlca.sd.eqn.func.Abs;
 import org.openlca.sd.eqn.func.ArcCos;
@@ -84,7 +86,7 @@ public class EvalContext {
 	}
 
 	public EvalContext bind(String name, double value) {
-		var v = new Var.Aux(Id.of(name), Cell.of(value), "-");
+		var v = new Auxil(Id.of(name), Cell.of(value), "-");
 		return bind(v);
 	}
 

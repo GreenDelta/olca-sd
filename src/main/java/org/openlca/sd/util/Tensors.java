@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.openlca.sd.eqn.Subscript;
 import org.openlca.sd.eqn.Tensor;
-import org.openlca.sd.eqn.Var;
+import org.openlca.sd.vars.Var;
 
 public class Tensors {
 

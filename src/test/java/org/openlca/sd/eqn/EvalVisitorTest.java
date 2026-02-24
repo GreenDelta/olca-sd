@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.junit.Test;
+import org.openlca.sd.vars.Var.Auxil;
 import org.openlca.sd.eqn.cells.Cell;
 
 public class EvalVisitorTest {
@@ -478,7 +479,7 @@ public class EvalVisitorTest {
 		products.set(Subscript.of("PET"), Cell.of(10.0));
 		products.set(Subscript.of("PVC"), Cell.of(20.0));
 		products.set(Subscript.of("Nylon"), Cell.of(30.0));
-		ctx.bind(new Var.Aux(Id.of("products"), Cell.of(products), "-"));
+		ctx.bind(new Auxil(Id.of("products"), Cell.of(products), "-"));
 
 		// Create 2D tensor
 		var dim2 = Dimension.of("Location", "US", "DE", "FR");
@@ -487,7 +488,7 @@ public class EvalVisitorTest {
 		prices.set(List.of(Subscript.of("PET"), Subscript.of("DE")), Cell.of(1.1));
 		prices.set(List.of(Subscript.of("PVC"), Subscript.of("US")), Cell.of(2.0));
 		prices.set(List.of(Subscript.of("Nylon"), Subscript.of("FR")), Cell.of(3.5));
-		ctx.bind(new Var.Aux(Id.of("prices"), Cell.of(prices), "-"));
+		ctx.bind(new Auxil(Id.of("prices"), Cell.of(prices), "-"));
 
 		// Test 1D array access with identifier subscripts
 		assertEquals(10.0, eval("products[PET]", ctx).asNum(), 1e-10);

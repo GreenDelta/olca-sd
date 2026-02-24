@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.vars.Var;
 
 public record SimulationState(
 	int iteration,

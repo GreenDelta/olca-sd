@@ -19,6 +19,7 @@ import org.openlca.sd.eqn.cells.NonNegativeCell;
 import org.openlca.sd.eqn.cells.NumCell;
 import org.openlca.sd.eqn.cells.TensorCell;
 import org.openlca.sd.eqn.cells.TensorEqnCell;
+import org.openlca.sd.vars.Var;
 
 public class EvaluationOrder {
 

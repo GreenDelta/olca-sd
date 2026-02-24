@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.Var.Aux;
-import org.openlca.sd.eqn.Var.Stock;
+import org.openlca.sd.vars.Var;
+import org.openlca.sd.vars.Var.Auxil;
+import org.openlca.sd.vars.Var.Stock;
 import org.openlca.sd.eqn.cells.Cell;
 import org.openlca.sd.eqn.cells.NonNegativeCell;
 import org.openlca.sd.eqn.cells.NumCell;
@@ -18,6 +19,7 @@ import org.openlca.sd.eqn.func.Mul;
 import org.openlca.sd.eqn.func.NonNeg;
 import org.openlca.sd.eqn.func.Sub;
 import org.openlca.sd.eqn.func.Sum;
+import org.openlca.sd.vars.Vars;
 import org.openlca.sd.xmile.Xmile;
 
 public class Simulator implements Iterable<Res<SimulationState>> {
@@ -62,7 +64,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 		private final Map<Id, Var> state;
 
 		private final EvalContext ctx;
-		private final Aux timeVar;
+		private final Auxil timeVar;
 		private final Cell dt;
 		private final Interpreter interpreter;
 
@@ -87,7 +89,7 @@ public class Simulator implements Iterable<Res<SimulationState>> {
 			ctx.bind("STOPTIME", time.end());
 			// TODO: bind top-level lookup functions
 
-			timeVar = new Aux(Id.of("TIME"), Cell.of(time.start()), time.unit());
+			timeVar = new Auxil(Id.of("TIME"), Cell.of(time.start()), time.unit());
 			dt = Cell.of(time.dt());
 			ctx.bind(timeVar);
 			for (var v : vars) {
