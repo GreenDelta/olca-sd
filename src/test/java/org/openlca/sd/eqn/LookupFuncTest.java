@@ -3,7 +3,8 @@ package org.openlca.sd.eqn;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.openlca.sd.eqn.LookupFunc.Type;
+import org.openlca.sd.model.LookupFunc;
+import org.openlca.sd.model.LookupFunc.Type;
 
 /// Tests the lookup function with `y = 1.5 * x - 2` and `x in [3, 7]`:
 /// ```

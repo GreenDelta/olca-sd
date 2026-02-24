@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.model;
 
 import org.openlca.commons.Res;
 import org.openlca.sd.xmile.Xmile;

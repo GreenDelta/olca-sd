@@ -3,7 +3,7 @@ package org.openlca.sd;
 import java.io.File;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.Id;
+import org.openlca.sd.model.Id;
 import org.openlca.sd.eqn.SimulationState;
 import org.openlca.sd.eqn.Simulator;
 import org.openlca.sd.util.TensorPrinter;

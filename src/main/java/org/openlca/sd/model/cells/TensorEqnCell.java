@@ -1,12 +1,12 @@
-package org.openlca.sd.eqn.cells;
+package org.openlca.sd.model.cells;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.openlca.commons.Res;
 import org.openlca.sd.eqn.Interpreter;
-import org.openlca.sd.eqn.LookupFunc;
-import org.openlca.sd.eqn.Tensor;
+import org.openlca.sd.model.LookupFunc;
+import org.openlca.sd.model.Tensor;
 import org.openlca.sd.util.Tensors;
 
 public record TensorEqnCell(Cell eqn, Tensor tensor) implements Cell {

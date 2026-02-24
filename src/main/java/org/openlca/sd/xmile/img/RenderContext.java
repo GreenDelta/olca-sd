@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-import org.openlca.sd.eqn.Id;
+import org.openlca.sd.model.Id;
 import org.openlca.sd.xmile.Xmile;
 import org.openlca.sd.xmile.view.XmiAuxView;
 import org.openlca.sd.xmile.view.XmiElementStyle;

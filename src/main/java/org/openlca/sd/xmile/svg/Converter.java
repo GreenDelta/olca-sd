@@ -1,6 +1,6 @@
 package org.openlca.sd.xmile.svg;
 
-import org.openlca.sd.eqn.Id;
+import org.openlca.sd.model.Id;
 import org.openlca.sd.xmile.view.XmiAuxView;
 import org.openlca.sd.xmile.view.XmiConnectorView;
 import org.openlca.sd.xmile.view.XmiFlowView;

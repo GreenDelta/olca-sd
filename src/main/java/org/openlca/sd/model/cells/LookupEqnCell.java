@@ -1,11 +1,11 @@
-package org.openlca.sd.eqn.cells;
+package org.openlca.sd.model.cells;
 
 import java.util.Objects;
 
 import org.openlca.commons.Res;
 import org.openlca.sd.eqn.Interpreter;
-import org.openlca.sd.eqn.LookupFunc;
-import org.openlca.sd.eqn.Tensor;
+import org.openlca.sd.model.LookupFunc;
+import org.openlca.sd.model.Tensor;
 
 /// A cell with a lookup function and an equation where the equation
 /// evaluates to a value that is then passed into the lookup function.

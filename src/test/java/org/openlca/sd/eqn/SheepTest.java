@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openlca.sd.model.Id;
 import org.openlca.sd.xmile.Xmile;
 
 public class SheepTest {

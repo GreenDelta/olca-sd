@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn.cells;
+package org.openlca.sd.model.cells;
 
 import org.openlca.commons.Res;
 import org.openlca.sd.eqn.Interpreter;

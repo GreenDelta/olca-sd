@@ -4,12 +4,12 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openlca.sd.eqn.Dimension;
-import org.openlca.sd.eqn.Id;
-import org.openlca.sd.eqn.Subscript;
-import org.openlca.sd.eqn.Tensor;
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.eqn.cells.TensorCell;
+import org.openlca.sd.model.Dimension;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.Subscript;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.TensorCell;
 
 public class TensorPrinter {
 

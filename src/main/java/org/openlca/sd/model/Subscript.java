@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public sealed interface Subscript {
 	record Index(int value) implements Subscript {
 
 		@Override
-		public final String toString() {
+		public String toString() {
 			return Integer.toString(value);
 		}
 	}
@@ -55,7 +55,7 @@ public sealed interface Subscript {
 	record Identifier(Id value) implements Subscript {
 
 		@Override
-		public final String toString() {
+		public String toString() {
 			return value != null ? value.value() : "?";
 		}
 	}
@@ -64,7 +64,7 @@ public sealed interface Subscript {
 		private static final Wildcard instance = new Wildcard();
 
 		@Override
-		public final String toString() {
+		public String toString() {
 			return "*";
 		}
 	}
@@ -73,7 +73,7 @@ public sealed interface Subscript {
 		private static final Empty instance = new Empty();
 
 		@Override
-		public final String toString() {
+		public String toString() {
 			return "";
 		}
 	}

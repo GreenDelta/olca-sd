@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.openlca.sd.eqn.EvaluationOrder;
-import org.openlca.sd.eqn.Id;
-import org.openlca.sd.vars.Vars;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.Vars;
 import org.openlca.sd.xmile.Xmile;
 
 public class CycleCheck {

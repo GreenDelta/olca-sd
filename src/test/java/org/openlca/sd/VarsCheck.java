@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.HashSet;
 
 import org.openlca.sd.eqn.EvaluationOrder;
-import org.openlca.sd.eqn.Id;
-import org.openlca.sd.vars.Stock;
-import org.openlca.sd.vars.Vars;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.Stock;
+import org.openlca.sd.model.Vars;
 import org.openlca.sd.xmile.Xmile;
 
 public class VarsCheck {

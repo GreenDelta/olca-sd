@@ -1,10 +1,10 @@
-package org.openlca.sd.eqn.cells;
+package org.openlca.sd.model.cells;
 
 import java.util.Objects;
 
 import org.openlca.commons.Res;
 import org.openlca.sd.eqn.Interpreter;
-import org.openlca.sd.eqn.LookupFunc;
+import org.openlca.sd.model.LookupFunc;
 
 /// A cell that just contains a lookup function. Such a cell needs an outer
 /// context that provides the input value of the lookup function. For example,

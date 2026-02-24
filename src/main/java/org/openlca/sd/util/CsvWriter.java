@@ -14,11 +14,11 @@ import org.openlca.commons.Res;
 import org.openlca.commons.Strings;
 import org.openlca.sd.eqn.SimulationState;
 import org.openlca.sd.eqn.Simulator;
-import org.openlca.sd.eqn.Tensor;
-import org.openlca.sd.eqn.cells.BoolCell;
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.eqn.cells.NumCell;
-import org.openlca.sd.eqn.cells.TensorCell;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.cells.BoolCell;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.NumCell;
+import org.openlca.sd.model.cells.TensorCell;
 
 public class CsvWriter {
 

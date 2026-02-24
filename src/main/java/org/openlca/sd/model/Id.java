@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class Id {
 		return new Id(s, val.toString().toLowerCase());
 	}
 
-	static Id[] ofAll(String... ss) {
+	public static Id[] ofAll(String... ss) {
 		if (ss == null || ss.length == 0)
 			return new Id[0];
 		var ids = new Id[ss.length];
@@ -76,6 +76,8 @@ public class Id {
 		return list;
 	}
 
+	/// Returns true when the given string is null or blank. This is defined
+	/// to be the value of the nil-identifier.
 	public static boolean isNil(String s) {
 		return s == null || s.isBlank();
 	}

@@ -7,19 +7,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.eqn.cells.NonNegativeCell;
-import org.openlca.sd.eqn.cells.NumCell;
-import org.openlca.sd.eqn.cells.TensorCell;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.TimeSeq;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.NonNegativeCell;
+import org.openlca.sd.model.cells.NumCell;
+import org.openlca.sd.model.cells.TensorCell;
 import org.openlca.sd.eqn.func.Add;
 import org.openlca.sd.eqn.func.Mul;
 import org.openlca.sd.eqn.func.NonNeg;
 import org.openlca.sd.eqn.func.Sub;
 import org.openlca.sd.eqn.func.Sum;
-import org.openlca.sd.vars.Auxil;
-import org.openlca.sd.vars.Stock;
-import org.openlca.sd.vars.Var;
-import org.openlca.sd.vars.Vars;
+import org.openlca.sd.model.Auxil;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.Stock;
+import org.openlca.sd.model.Var;
+import org.openlca.sd.model.Vars;
 import org.openlca.sd.xmile.Xmile;
 
 public class Simulator implements Iterable<Res<SimulationState>> {

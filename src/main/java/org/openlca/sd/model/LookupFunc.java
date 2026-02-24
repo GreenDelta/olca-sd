@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.model;
 
 import java.util.Objects;
 

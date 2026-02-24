@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.junit.Test;
-import org.openlca.sd.eqn.Dimension;
-import org.openlca.sd.eqn.Subscript;
-import org.openlca.sd.eqn.Tensor;
+import org.openlca.sd.model.Dimension;
+import org.openlca.sd.model.Subscript;
+import org.openlca.sd.model.Tensor;
 import org.openlca.sd.eqn.TensorProjection;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.cells.Cell;
 
 public class TensorProjectionTest {
 

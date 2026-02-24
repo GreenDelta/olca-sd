@@ -1,9 +1,9 @@
-package org.openlca.sd.eqn.cells;
+package org.openlca.sd.model.cells;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.Id;
+import org.openlca.sd.model.Id;
 import org.openlca.sd.eqn.Interpreter;
-import org.openlca.sd.eqn.Tensor;
+import org.openlca.sd.model.Tensor;
 
 /// The possible types of a tensor cell entry.
 public sealed interface Cell permits

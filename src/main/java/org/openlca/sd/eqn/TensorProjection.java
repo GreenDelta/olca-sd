@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.eqn.cells.NumCell;
+import org.openlca.sd.model.Dimension;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.NumCell;
 import org.openlca.sd.util.Tensors;
 
 /// Projects a tensor onto a different set of target dimensions.

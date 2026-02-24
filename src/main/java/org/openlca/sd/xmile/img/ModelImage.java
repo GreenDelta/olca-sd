@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.Id;
+import org.openlca.sd.model.Id;
 import org.openlca.sd.xmile.Xmile;
 import org.openlca.sd.xmile.view.XmiView;
 import org.openlca.sd.xmile.view.XmiViewPoint;

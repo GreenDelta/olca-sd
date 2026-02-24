@@ -5,9 +5,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.Tensor;
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.eqn.cells.TensorCell;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.TensorCell;
 
 class Fn {
 

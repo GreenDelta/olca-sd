@@ -10,12 +10,13 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.cells.Cell;
 import org.openlca.sd.eqn.generated.EqnBaseListener;
 import org.openlca.sd.eqn.generated.EqnLexer;
 import org.openlca.sd.eqn.generated.EqnParser;
 import org.openlca.sd.eqn.generated.EqnParser.ArrayAccessContext;
 import org.openlca.sd.eqn.generated.EqnParser.VarContext;
+import org.openlca.sd.model.Id;
 
 public class Interpreter {
 
@@ -36,7 +37,7 @@ public class Interpreter {
 	}
 
 	public Res<Cell> eval(String expression) {
-		if (Util.isEmpty(expression))
+		if (Id.isNil(expression))
 			return Res.error("empty expression provided");
 		var lexer = new EqnLexer(CharStreams.fromString(expression));
 		var tokens = new CommonTokenStream(lexer);
@@ -45,7 +46,7 @@ public class Interpreter {
 	}
 
 	public static Res<List<Id>> varsOf(String expression) {
-		if (Util.isEmpty(expression))
+		if (Id.isNil(expression))
 			return Res.error("provided expression is empty");
 
 		// predefined no-parameter functions that are not variables

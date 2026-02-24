@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.Subscript;
+import org.openlca.sd.model.cells.Cell;
 import org.openlca.sd.eqn.func.Add;
 import org.openlca.sd.eqn.func.Div;
 import org.openlca.sd.eqn.func.Eq;
@@ -30,6 +31,7 @@ import org.openlca.sd.eqn.generated.EqnParser.ParensContext;
 import org.openlca.sd.eqn.generated.EqnParser.PowerContext;
 import org.openlca.sd.eqn.generated.EqnParser.UnarySignContext;
 import org.openlca.sd.eqn.generated.EqnParser.VarContext;
+import org.openlca.sd.model.Id;
 
 class EvalVisitor extends EqnBaseVisitor<Res<Cell>> {
 

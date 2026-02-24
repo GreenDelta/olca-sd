@@ -3,8 +3,9 @@ package org.openlca.sd.eqn;
 import java.util.Map;
 import java.util.Optional;
 
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.vars.Var;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.Var;
 
 public record SimulationState(
 	int iteration,

@@ -4,8 +4,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.openlca.sd.eqn.Dimension;
-import org.openlca.sd.eqn.Tensor;
+import org.openlca.sd.model.Dimension;
+import org.openlca.sd.model.Tensor;
 
 public class TensorsTest {
 

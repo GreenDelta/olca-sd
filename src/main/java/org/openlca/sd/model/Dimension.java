@@ -1,12 +1,12 @@
-package org.openlca.sd.eqn;
+package org.openlca.sd.model;
 
 import java.util.List;
 import java.util.Objects;
 
-import org.openlca.sd.eqn.Subscript.Empty;
-import org.openlca.sd.eqn.Subscript.Identifier;
-import org.openlca.sd.eqn.Subscript.Index;
-import org.openlca.sd.eqn.Subscript.Wildcard;
+import org.openlca.sd.model.Subscript.Empty;
+import org.openlca.sd.model.Subscript.Identifier;
+import org.openlca.sd.model.Subscript.Index;
+import org.openlca.sd.model.Subscript.Wildcard;
 
 public class Dimension {
 

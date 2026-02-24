@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.cells.Cell;
 
 public class ExpRndTest {
 

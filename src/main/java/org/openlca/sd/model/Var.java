@@ -1,9 +1,8 @@
-package org.openlca.sd.vars;
+package org.openlca.sd.model;
 
 import java.util.List;
 
-import org.openlca.sd.eqn.Id;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.cells.Cell;
 
 public sealed interface Var permits Auxil, Rate, Stock {
 

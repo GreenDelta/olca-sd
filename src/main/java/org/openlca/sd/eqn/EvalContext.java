@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.cells.Cell;
 import org.openlca.sd.eqn.func.Abs;
 import org.openlca.sd.eqn.func.ArcCos;
 import org.openlca.sd.eqn.func.ArcSin;
@@ -27,8 +27,9 @@ import org.openlca.sd.eqn.func.Sin;
 import org.openlca.sd.eqn.func.Sqrt;
 import org.openlca.sd.eqn.func.Sum;
 import org.openlca.sd.eqn.func.Tan;
-import org.openlca.sd.vars.Auxil;
-import org.openlca.sd.vars.Var;
+import org.openlca.sd.model.Auxil;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.Var;
 
 public class EvalContext {
 

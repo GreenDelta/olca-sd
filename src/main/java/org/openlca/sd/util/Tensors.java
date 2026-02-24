@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.openlca.sd.eqn.Subscript;
-import org.openlca.sd.eqn.Tensor;
-import org.openlca.sd.vars.Var;
+import org.openlca.sd.model.Subscript;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.Var;
 
 public class Tensors {
 

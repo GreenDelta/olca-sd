@@ -1,4 +1,4 @@
-package org.openlca.sd.eqn.cells;
+package org.openlca.sd.model.cells;
 
 import java.util.List;
 import java.util.Objects;

@@ -5,8 +5,12 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.openlca.sd.eqn.cells.Cell;
-import org.openlca.sd.vars.Auxil;
+import org.openlca.sd.model.Dimension;
+import org.openlca.sd.model.Subscript;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.Auxil;
+import org.openlca.sd.model.Id;
 
 public class EvalVisitorTest {
 

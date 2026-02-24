@@ -3,8 +3,8 @@ package org.openlca.sd.eqn.func;
 import java.util.List;
 
 import org.openlca.commons.Res;
-import org.openlca.sd.eqn.Id;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.Id;
+import org.openlca.sd.model.cells.Cell;
 
 public class Exp implements Func {
 

@@ -3,10 +3,10 @@ package org.openlca.sd.eqn.func;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.openlca.sd.eqn.Dimension;
-import org.openlca.sd.eqn.Subscript;
-import org.openlca.sd.eqn.Tensor;
-import org.openlca.sd.eqn.cells.Cell;
+import org.openlca.sd.model.Dimension;
+import org.openlca.sd.model.Subscript;
+import org.openlca.sd.model.Tensor;
+import org.openlca.sd.model.cells.Cell;
 
 public class DivTest {
 
