@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openlca.commons.Res;
+import org.openlca.sd.model.SdModel;
 import org.openlca.sd.model.Tensor;
 import org.openlca.sd.model.TimeSeq;
 import org.openlca.sd.model.cells.Cell;
@@ -27,37 +28,34 @@ import org.openlca.sd.xmile.Xmile;
 
 public class Simulator implements Iterable<Res<SimulationState>> {
 
-	private final TimeSeq time;
-	private final List<Var> vars;
+	private final SdModel model;
 
-	private Simulator(TimeSeq time, List<Var> vars) {
-		this.time = time;
-		this.vars = vars;
+	private Simulator(SdModel model) {
+		this.model = model;
 	}
 
 	public static Res<Simulator> of(Xmile xmile) {
-		var time = TimeSeq.of(xmile);
-		if (time.isError()) {
-			return time.wrapError("failed to parse time from simulation spec");
+		var res = SdModel.readFrom(xmile);
+		if (res.isError()) {
+			return res.wrapError("failed to parse model from xmile");
 		}
-		var vars = Vars.readFrom(xmile);
-		if (vars.isError()) {
-			return vars.wrapError("failed to parse simulation elements");
-		}
-		var order = EvaluationOrder.of(vars.value());
+		var model = res.value();
+		var order = EvaluationOrder.of(model.vars());
 		if (order.isError()) {
 			return order.wrapError("failed to determine evaluation order");
 		}
-		return Res.ok(new Simulator(time.value(), order.value()));
+		model.vars().clear();
+		model.vars().addAll(order.value());
+		return Res.ok(new Simulator(model));
 	}
 
 	@Override
 	public Simulation iterator() {
-		var freshVars = new ArrayList<Var>(vars.size());
-		for (var v : vars) {
+		var freshVars = new ArrayList<Var>(model.vars().size());
+		for (var v : model.vars()) {
 			freshVars.add(v.freshCopy());
 		}
-		return new Simulation(time, freshVars);
+		return new Simulation(model.time(), freshVars);
 	}
 
 	public static class Simulation implements Iterator<Res<SimulationState>> {

@@ -12,7 +12,8 @@ public class EvaluationOrderExample {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var vars = Vars.readFrom(xmile).orElseThrow();
+		var model = Vars.readFrom(xmile).orElseThrow();
+		var vars = model.vars();
 
 		var order = EvaluationOrder.of(vars).orElseThrow();
 		for (var v : order) {

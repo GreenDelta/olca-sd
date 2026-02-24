@@ -12,9 +12,10 @@ public class VarsGraph {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var vars = Vars
+		var model = Vars
 			.readFrom(xmile)
 			.orElseThrow();
+		var vars = model.vars();
 
 		System.out.println("digraph g {");
 		for (var v : vars) {

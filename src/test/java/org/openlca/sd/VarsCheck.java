@@ -16,7 +16,8 @@ public class VarsCheck {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var vars = Vars.readFrom(xmile).orElseThrow();
+		var model = Vars.readFrom(xmile).orElseThrow();
+		var vars = model.vars();
 
 		var ids = new HashSet<Id>();
 		for (var v : vars) {

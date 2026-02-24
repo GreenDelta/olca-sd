@@ -27,7 +27,7 @@ public class Vars {
 	private Vars() {
 	}
 
-	public static Res<List<Var>> readFrom(Xmile xmile) {
+	public static Res<SdModel> readFrom(Xmile xmile) {
 		return xmile != null
 			? new Reader(xmile).read()
 			: Res.error("no Xmile model provided");
@@ -37,14 +37,17 @@ public class Vars {
 	private static class Reader {
 
 		private final Xmile xmile;
+		private final SdModel model;
 		private final HashMap<Id, Dimension> dimensions;
 
 		Reader(Xmile xmile) {
 			this.xmile = xmile;
+			this.model = new SdModel();
 			dimensions = new HashMap<>();
 			for (var d : xmile.dims()) {
 				var dim = dimOf(d);
 				dimensions.put(dim.name(), dim);
+				model.dimensions().add(dim);
 			}
 		}
 
@@ -59,13 +62,17 @@ public class Vars {
 			return new Dimension(id, elements);
 		}
 
-		Res<List<Var>> read() {
-			var model = xmile.model();
-			if (model == null)
+		Res<SdModel> read() {
+			var xmiModel = xmile.model();
+			if (xmiModel == null)
 				return Res.error("no model found");
 
-			var vars = new ArrayList<Var>();
-			for (var v : model.variables()) {
+			var time = TimeSeq.of(xmile);
+			if (time.isError())
+				return time.castError();
+			model.setTime(time.value());
+
+			for (var v : xmiModel.variables()) {
 				if (!(v instanceof XmiEvaluatable eva))
 					continue;
 				var cell = cellOf(eva);
@@ -75,11 +82,11 @@ public class Vars {
 				switch (eva) {
 					case XmiAux ignored -> {
 						var aux = new Auxil(Id.of(eva.name()), cell.value(), eva.units());
-						vars.add(aux);
+						model.vars().add(aux);
 					}
 					case XmiFlow ignored -> {
 						var flow = new Rate(Id.of(eva.name()), cell.value(), eva.units());
-						vars.add(flow);
+						model.vars().add(flow);
 					}
 					case XmiStock s -> {
 						var stock = new Stock(
@@ -88,11 +95,11 @@ public class Vars {
 							eva.units(),
 							Id.allOf(s.inflows()),
 							Id.allOf(s.outflows()));
-						vars.add(stock);
+						model.vars().add(stock);
 					}
 				}
 			}
-			return Res.ok(vars);
+			return Res.ok(model);
 		}
 
 		private Res<Cell> cellOf(XmiEvaluatable v) {

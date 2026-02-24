@@ -18,7 +18,8 @@ public class CycleCheck {
 		var xmile = Xmile
 			.readFrom(new File("examples/treasource-model.stmx"))
 			.orElseThrow();
-		var vars = Vars.readFrom(xmile).orElseThrow();
+		var model = Vars.readFrom(xmile).orElseThrow();
+		var vars = model.vars();
 
 		var deps = new HashMap<Id, Set<Id>>();
 		for (var v : vars) {
