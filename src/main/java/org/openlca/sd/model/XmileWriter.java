@@ -21,8 +21,10 @@ import org.openlca.sd.xmile.XmiElement;
 import org.openlca.sd.xmile.XmiEvaluatable;
 import org.openlca.sd.xmile.XmiFlow;
 import org.openlca.sd.xmile.XmiGf;
+import org.openlca.sd.xmile.XmiMinMax;
 import org.openlca.sd.xmile.XmiModel;
 import org.openlca.sd.xmile.XmiNonNegative;
+import org.openlca.sd.xmile.XmiPoints;
 import org.openlca.sd.xmile.XmiSimSpecs;
 import org.openlca.sd.xmile.XmiStock;
 import org.openlca.sd.xmile.XmiVariable;
@@ -179,9 +181,9 @@ public class XmileWriter {
 			x.setEqn(ec.value());
 		} else if (cell instanceof LookupEqnCell lec) {
 			x.setEqn(lec.eqn());
-			x.setGf(writeGf(lec.func()));
+			x.setGf(xmiLookupOf(lec.func()));
 		} else if (cell instanceof LookupCell lc) {
-			x.setGf(writeGf(lc.func()));
+			x.setGf(xmiLookupOf(lc.func()));
 		} else if (cell instanceof TensorCell tc) {
 			fillTensor(x, tc.value());
 		}
@@ -215,49 +217,45 @@ public class XmileWriter {
 				xmiElem.setEqn(ec.value());
 			} else if (c instanceof LookupEqnCell lec) {
 				xmiElem.setEqn(lec.eqn());
-				xmiElem.setGf(writeGf(lec.func()));
+				xmiElem.setGf(xmiLookupOf(lec.func()));
 			} else if (c instanceof LookupCell lc) {
-				xmiElem.setGf(writeGf(lc.func()));
+				xmiElem.setGf(xmiLookupOf(lc.func()));
 			}
 			elements.add(xmiElem);
 		}
 		x.setElements(elements);
 	}
 
-	private XmiGf writeGf(LookupFunc func) {
+	private XmiGf xmiLookupOf(LookupFunc func) {
 		if (func == null)
 			return null;
+
 		var xmiGf = new XmiGf();
 		xmiGf.setType(switch (func.type()) {
 			case DISCRETE -> org.openlca.sd.xmile.XmiGfType.DISCRETE;
 			case EXTRAPOLATE -> org.openlca.sd.xmile.XmiGfType.EXTRAPOLATE;
-			default -> org.openlca.sd.xmile.XmiGfType.CONTINUOUS;
+			case null, default -> org.openlca.sd.xmile.XmiGfType.CONTINUOUS;
 		});
 
-		var ypts = new org.openlca.sd.xmile.XmiPoints();
-		ypts.setValues(join(func.ys()));
-		xmiGf.setYpts(ypts);
-
-		if (func.xs() != null) {
-			var xpts = new org.openlca.sd.xmile.XmiPoints();
-			xpts.setValues(join(func.xs()));
-			xmiGf.setXpts(xpts);
-		} else {
-			var xscale = new org.openlca.sd.xmile.XmiMinMax();
-			double[] xs = func.xs();
-			if (xs != null && xs.length > 0) {
-				xscale.setMin(xs[0]);
-				xscale.setMax(xs[xs.length - 1]);
-			}
-			xmiGf.setXscale(xscale);
+		// in our runtime-model, we always translate range defined lookup functions
+		// into their xy-pairs. Thus, we write this back to XMILE and these values
+		// should be read first in an import. We additionally provide the x-range
+		// for information and debugging.
+		xmiGf.setYpts(xmiPointsOf(func.ys()));
+		var xs = func.xs();
+		xmiGf.setXpts(xmiPointsOf(xs));
+		if (xs != null && xs.length > 0) {
+			var scale = new XmiMinMax();
+			scale.setMin(xs[0]);
+			scale.setMax(xs[xs.length - 1]);
+			xmiGf.setXscale(scale);
 		}
-
 		return xmiGf;
 	}
 
-	private String join(double[] values) {
+	private XmiPoints xmiPointsOf(double[] values) {
 		if (values == null)
-			return "";
+			return null;
 		var sb = new StringBuilder();
 		for (int i = 0; i < values.length; i++) {
 			if (i > 0) {
@@ -265,6 +263,8 @@ public class XmileWriter {
 			}
 			sb.append(values[i]);
 		}
-		return sb.toString();
+		var points = new XmiPoints();
+		points.setValues(sb.toString());
+		return points;
 	}
 }
