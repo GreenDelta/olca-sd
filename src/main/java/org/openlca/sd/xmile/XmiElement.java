@@ -52,4 +52,7 @@ public class XmiElement {
 		this.nonNegative = nonNegative;
 	}
 
+	public void setNonNegative() {
+		this.nonNegative = new XmiNonNegative();
+	}
 }

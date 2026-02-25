@@ -6,8 +6,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openlca.commons.Res;
+import org.openlca.commons.Strings;
 import org.openlca.sd.model.cells.BoolCell;
 import org.openlca.sd.model.cells.Cell;
 import org.openlca.sd.model.cells.EmptyCell;
@@ -18,6 +20,7 @@ import org.openlca.sd.model.cells.NonNegativeCell;
 import org.openlca.sd.model.cells.NumCell;
 import org.openlca.sd.model.cells.TensorCell;
 import org.openlca.sd.model.cells.TensorEqnCell;
+import org.openlca.sd.util.Tensors;
 import org.openlca.sd.xmile.XmiAux;
 import org.openlca.sd.xmile.XmiDim;
 import org.openlca.sd.xmile.XmiElement;
@@ -26,7 +29,6 @@ import org.openlca.sd.xmile.XmiFlow;
 import org.openlca.sd.xmile.XmiGf;
 import org.openlca.sd.xmile.XmiMinMax;
 import org.openlca.sd.xmile.XmiModel;
-import org.openlca.sd.xmile.XmiNonNegative;
 import org.openlca.sd.xmile.XmiPoints;
 import org.openlca.sd.xmile.XmiSimSpecs;
 import org.openlca.sd.xmile.XmiStock;
@@ -147,7 +149,7 @@ public class XmileWriter {
 		var xmiAux = new XmiAux();
 		xmiAux.setName(a.name().value());
 		xmiAux.setUnits(a.unit());
-		fillEvaluatable(xmiAux, a.def());
+		fillVariable(xmiAux, a.def());
 		return xmiAux;
 	}
 
@@ -155,7 +157,7 @@ public class XmileWriter {
 		var xmiFlow = new XmiFlow();
 		xmiFlow.setName(r.name().value());
 		xmiFlow.setUnits(r.unit());
-		fillEvaluatable(xmiFlow, r.def());
+		fillVariable(xmiFlow, r.def());
 		return xmiFlow;
 	}
 
@@ -163,15 +165,14 @@ public class XmileWriter {
 		var xmiStock = new XmiStock();
 		xmiStock.setName(s.name().value());
 		xmiStock.setUnits(s.unit());
-		fillEvaluatable(xmiStock, s.def());
+		fillVariable(xmiStock, s.def());
 		xmiStock.setInflows(s.inFlows().stream().map(Id::value).toList());
 		xmiStock.setOutflows(s.outFlows().stream().map(Id::value).toList());
 		return xmiStock;
 	}
 
-	private void fillEvaluatable(XmiEvaluatable x, Cell cell) {
+	private void fillVariable(XmiEvaluatable x, Cell cell) {
 		switch (cell) {
-
 			case BoolCell(boolean b) -> x.setEqn(Boolean.toString(b));
 			case EmptyCell ignore -> {}
 			case EqnCell(String eqn) -> x.setEqn(eqn);
@@ -185,10 +186,10 @@ public class XmileWriter {
 			}
 			case NonNegativeCell(Cell value) -> {
 				x.setNonNegative();
-				fillEvaluatable(x, value);
+				fillVariable(x, value);
 			}
 			case TensorEqnCell(Cell eqn, Tensor tensor) -> {
-				fillEvaluatable(x, eqn);
+				fillVariable(x, eqn);
 				fillTensor(x, tensor);
 			}
 		}
@@ -203,32 +204,42 @@ public class XmileWriter {
 		}
 		x.setDimensions(dims);
 
-		// XMILE elements are for sparse or explicit values in arrays
-		// We'll only write elements for non-empty cells
 		var elements = new ArrayList<XmiElement>();
-		for (int i = 0; i < t.size(); i++) {
-			Cell c = t.get(i);
-			if (c instanceof org.openlca.sd.model.cells.EmptyCell)
+		for (var a : Tensors.addressesOf(t)) {
+			var cell = t.get(a);
+			if (cell.isEmpty())	continue;
+			var elem = new XmiElement();
+			fillElement(elem, cell);
+			if (Strings.isBlank(elem.eqn()) && elem.gf() == null) {
 				continue;
-
-			var xmiElem = new XmiElement();
-			// We need a way to get the subscript for an index if we want to write it back
-			// For now, we skip subscripted elements or handle them if possible
-			if (c instanceof NonNegativeCell nn) {
-				xmiElem.setNonNegative(new XmiNonNegative());
-				c = nn.value();
 			}
-			if (c instanceof EqnCell ec) {
-				xmiElem.setEqn(ec.value());
-			} else if (c instanceof LookupEqnCell lec) {
-				xmiElem.setEqn(lec.eqn());
-				xmiElem.setGf(xmiLookupOf(lec.func()));
-			} else if (c instanceof LookupCell lc) {
-				xmiElem.setGf(xmiLookupOf(lc.func()));
-			}
-			elements.add(xmiElem);
+			var subscript = a.stream()
+				.map(Object::toString)
+				.collect(Collectors.joining(", "));
+			elem.setSubscript(subscript);
+			elements.add(elem);
 		}
 		x.setElements(elements);
+	}
+
+	private void fillElement(XmiElement x, Cell cell) {
+		switch (cell) {
+			case BoolCell(boolean b) -> x.setEqn(Boolean.toString(b));
+			case EmptyCell ignore -> {}
+			case EqnCell(String eqn) -> x.setEqn(eqn);
+			case LookupCell(LookupFunc func) -> x.setGf(xmiLookupOf(func));
+			case NumCell(double num) -> x.setEqn(Double.toString(num));
+			case LookupEqnCell(String eqn, LookupFunc func) -> {
+				x.setEqn(eqn);
+				x.setGf(xmiLookupOf(func));
+			}
+			case NonNegativeCell(Cell value) -> {
+				x.setNonNegative();
+				fillElement(x, value);
+			}
+			case TensorCell ignore -> {}
+			case TensorEqnCell ignore -> {}
+		}
 	}
 
 	private XmiGf xmiLookupOf(LookupFunc func) {
