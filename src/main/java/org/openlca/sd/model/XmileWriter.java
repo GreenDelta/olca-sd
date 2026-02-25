@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openlca.commons.Res;
+import org.openlca.sd.model.cells.BoolCell;
 import org.openlca.sd.model.cells.Cell;
+import org.openlca.sd.model.cells.EmptyCell;
 import org.openlca.sd.model.cells.EqnCell;
 import org.openlca.sd.model.cells.LookupCell;
 import org.openlca.sd.model.cells.LookupEqnCell;
 import org.openlca.sd.model.cells.NonNegativeCell;
+import org.openlca.sd.model.cells.NumCell;
 import org.openlca.sd.model.cells.TensorCell;
 import org.openlca.sd.model.cells.TensorEqnCell;
 import org.openlca.sd.xmile.XmiAux;
@@ -167,25 +170,27 @@ public class XmileWriter {
 	}
 
 	private void fillEvaluatable(XmiEvaluatable x, Cell cell) {
-		if (cell instanceof NonNegativeCell nn) {
-			x.setNonNegative(new XmiNonNegative());
-			cell = nn.value();
-		}
+		switch (cell) {
 
-		if (cell instanceof TensorEqnCell te) {
-			if (te.eqn() instanceof EqnCell ec) {
-				x.setEqn(ec.value());
+			case BoolCell(boolean b) -> x.setEqn(Boolean.toString(b));
+			case EmptyCell ignore -> {}
+			case EqnCell(String eqn) -> x.setEqn(eqn);
+			case LookupCell(LookupFunc func) -> x.setGf(xmiLookupOf(func));
+			case NumCell(double num) -> x.setEqn(Double.toString(num));
+			case TensorCell(Tensor tensor) -> fillTensor(x, tensor);
+
+			case LookupEqnCell(String eqn, LookupFunc func) -> {
+				x.setEqn(eqn);
+				x.setGf(xmiLookupOf(func));
 			}
-			fillTensor(x, te.tensor());
-		} else if (cell instanceof EqnCell ec) {
-			x.setEqn(ec.value());
-		} else if (cell instanceof LookupEqnCell lec) {
-			x.setEqn(lec.eqn());
-			x.setGf(xmiLookupOf(lec.func()));
-		} else if (cell instanceof LookupCell lc) {
-			x.setGf(xmiLookupOf(lc.func()));
-		} else if (cell instanceof TensorCell tc) {
-			fillTensor(x, tc.value());
+			case NonNegativeCell(Cell value) -> {
+				x.setNonNegative();
+				fillEvaluatable(x, value);
+			}
+			case TensorEqnCell(Cell eqn, Tensor tensor) -> {
+				fillEvaluatable(x, eqn);
+				fillTensor(x, tensor);
+			}
 		}
 	}
 

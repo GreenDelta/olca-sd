@@ -90,6 +90,10 @@ public sealed abstract class XmiEvaluatable
 		this.nonNegative = nonNegative;
 	}
 
+	public void setNonNegative() {
+		this.nonNegative = new XmiNonNegative();
+	}
+
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class Dim {
 
