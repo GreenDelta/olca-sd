@@ -56,26 +56,21 @@ public class XmileWriter {
 	public Res<Xmile> write() {
 		if (model == null)
 			return Res.error("no model provided");
-
 		var xmile = new Xmile();
 		xmile.setSimSpecs(writeSimSpecs());
 		xmile.setDims(writeDims());
-
 		var xmiModel = new XmiModel();
 		xmiModel.setVariables(writeVariables());
 		xmile.setModel(xmiModel);
-
 		return Res.ok(xmile);
 	}
 
 	public Res<Void> writeTo(File file) {
-		var xmileRes = write();
-		if (xmileRes.isError())
-			return xmileRes.castError();
-
+		var res = write();
+		if (res.isError()) return res.castError();
 		try (var stream = new FileOutputStream(file);
 				 var buffer = new BufferedOutputStream(stream)) {
-			JAXB.marshal(xmileRes.value(), buffer);
+			JAXB.marshal(res.value(), buffer);
 			return Res.ok();
 		} catch (Exception e) {
 			return Res.error("Error writing XMILE file: " + file, e);
@@ -83,12 +78,10 @@ public class XmileWriter {
 	}
 
 	public Res<Void> writeTo(OutputStream stream) {
-		var xmileRes = write();
-		if (xmileRes.isError())
-			return xmileRes.castError();
-
+		var res = write();
+		if (res.isError()) return res.castError();
 		try {
-			JAXB.marshal(xmileRes.value(), stream);
+			JAXB.marshal(res.value(), stream);
 			return Res.ok();
 		} catch (Exception e) {
 			return Res.error("Error writing XMILE stream", e);
@@ -100,31 +93,30 @@ public class XmileWriter {
 		if (specs == null)
 			return null;
 
-		var xmiSpecs = new XmiSimSpecs();
-		xmiSpecs.setStart(specs.start());
-		xmiSpecs.setStop(specs.end());
-		xmiSpecs.setTimeUnits(specs.unit());
+		var x = new XmiSimSpecs();
+		x.setStart(specs.start());
+		x.setStop(specs.end());
+		x.setTimeUnits(specs.unit());
 
-		var dt = new org.openlca.sd.xmile.XmiSimSpecs.DeltaT();
+		var dt = new XmiSimSpecs.DeltaT();
 		dt.setValue(specs.dt());
-		xmiSpecs.setDt(dt);
-
-		return xmiSpecs;
+		x.setDt(dt);
+		return x;
 	}
 
 	private List<XmiDim> writeDims() {
 		var dims = new ArrayList<XmiDim>();
 		for (var d : model.dimensions()) {
-			var xmiDim = new XmiDim();
-			xmiDim.setName(d.name().value());
+			var xd = new XmiDim();
+			xd.setName(d.name().value());
 			var elements = new ArrayList<XmiDim.Elem>();
 			for (var e : d.elements()) {
-				var xmiElem = new XmiDim.Elem();
-				xmiElem.setName(e.value());
-				elements.add(xmiElem);
+				var xe = new XmiDim.Elem();
+				xe.setName(e.value());
+				elements.add(xe);
 			}
-			xmiDim.setElems(elements);
-			dims.add(xmiDim);
+			xd.setElems(elements);
+			dims.add(xd);
 		}
 		return dims;
 	}
@@ -133,48 +125,46 @@ public class XmileWriter {
 		var vars = new ArrayList<XmiVariable>();
 		for (var v : model.vars()) {
 			XmiVariable xmiVar = switch (v) {
-				case Auxil a -> writeAux(a);
-				case Rate r -> writeFlow(r);
-				case Stock s -> writeStock(s);
-				default -> null;
+				case Auxil a -> xmiAuxOf(a);
+				case Rate r -> xmiFlowOf(r);
+				case Stock s -> xmiStockOf(s);
 			};
-			if (xmiVar != null) {
-				vars.add(xmiVar);
-			}
+			vars.add(xmiVar);
 		}
 		return vars;
 	}
 
-	private XmiAux writeAux(Auxil a) {
-		var xmiAux = new XmiAux();
-		xmiAux.setName(a.name().value());
-		xmiAux.setUnits(a.unit());
-		fillVariable(xmiAux, a.def());
-		return xmiAux;
+	private XmiAux xmiAuxOf(Auxil a) {
+		var x = new XmiAux();
+		x.setName(a.name().label());
+		x.setUnits(a.unit());
+		fillVariable(x, a.def());
+		return x;
 	}
 
-	private XmiFlow writeFlow(Rate r) {
-		var xmiFlow = new XmiFlow();
-		xmiFlow.setName(r.name().value());
-		xmiFlow.setUnits(r.unit());
-		fillVariable(xmiFlow, r.def());
-		return xmiFlow;
+	private XmiFlow xmiFlowOf(Rate r) {
+		var x = new XmiFlow();
+		x.setName(r.name().label());
+		x.setUnits(r.unit());
+		fillVariable(x, r.def());
+		return x;
 	}
 
-	private XmiStock writeStock(Stock s) {
-		var xmiStock = new XmiStock();
-		xmiStock.setName(s.name().value());
-		xmiStock.setUnits(s.unit());
-		fillVariable(xmiStock, s.def());
-		xmiStock.setInflows(s.inFlows().stream().map(Id::value).toList());
-		xmiStock.setOutflows(s.outFlows().stream().map(Id::value).toList());
-		return xmiStock;
+	private XmiStock xmiStockOf(Stock s) {
+		var x = new XmiStock();
+		x.setName(s.name().label());
+		x.setUnits(s.unit());
+		fillVariable(x, s.def());
+		x.setInflows(s.inFlows().stream().map(Id::value).toList());
+		x.setOutflows(s.outFlows().stream().map(Id::value).toList());
+		return x;
 	}
 
 	private void fillVariable(XmiEvaluatable x, Cell cell) {
 		switch (cell) {
 			case BoolCell(boolean b) -> x.setEqn(Boolean.toString(b));
-			case EmptyCell ignore -> {}
+			case EmptyCell ignore -> {
+			}
 			case EqnCell(String eqn) -> x.setEqn(eqn);
 			case LookupCell(LookupFunc func) -> x.setGf(xmiLookupOf(func));
 			case NumCell(double num) -> x.setEqn(Double.toString(num));
@@ -207,7 +197,7 @@ public class XmileWriter {
 		var elements = new ArrayList<XmiElement>();
 		for (var a : Tensors.addressesOf(t)) {
 			var cell = t.get(a);
-			if (cell.isEmpty())	continue;
+			if (cell.isEmpty()) continue;
 			var elem = new XmiElement();
 			fillElement(elem, cell);
 			if (Strings.isBlank(elem.eqn()) && elem.gf() == null) {
@@ -225,7 +215,8 @@ public class XmileWriter {
 	private void fillElement(XmiElement x, Cell cell) {
 		switch (cell) {
 			case BoolCell(boolean b) -> x.setEqn(Boolean.toString(b));
-			case EmptyCell ignore -> {}
+			case EmptyCell ignore -> {
+			}
 			case EqnCell(String eqn) -> x.setEqn(eqn);
 			case LookupCell(LookupFunc func) -> x.setGf(xmiLookupOf(func));
 			case NumCell(double num) -> x.setEqn(Double.toString(num));
@@ -237,8 +228,10 @@ public class XmileWriter {
 				x.setNonNegative();
 				fillElement(x, value);
 			}
-			case TensorCell ignore -> {}
-			case TensorEqnCell ignore -> {}
+			case TensorCell ignore -> {
+			}
+			case TensorEqnCell ignore -> {
+			}
 		}
 	}
 
