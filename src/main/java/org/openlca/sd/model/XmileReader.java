@@ -55,6 +55,12 @@ class XmileReader {
 		if (xmiModel == null)
 			return Res.error("no model found");
 
+		var header = xmile.header();
+		if (header != null) {
+			model.setId(header.uuid());
+			model.setName(header.name());
+		}
+
 		var time = simSpecsOf(xmile);
 		if (time.isError())
 			return time.castError();

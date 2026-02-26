@@ -15,8 +15,6 @@ class Converter {
 
 	private Converter(XmiView view) {
 		this.view = view;
-		int width = view.pageWidth() != null ? view.pageWidth() : 800;
-		int height = view.pageHeight() != null ? view.pageHeight() : 600;
 		this.doc = new SvgDoc();
 	}
 

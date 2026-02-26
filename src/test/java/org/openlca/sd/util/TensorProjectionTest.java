@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.junit.Test;
 import org.openlca.sd.model.Dimension;
 import org.openlca.sd.model.Subscript;

@@ -22,6 +22,7 @@ import org.openlca.sd.xmile.XmiElement;
 import org.openlca.sd.xmile.XmiEvaluatable;
 import org.openlca.sd.xmile.XmiFlow;
 import org.openlca.sd.xmile.XmiGf;
+import org.openlca.sd.xmile.XmiHeader;
 import org.openlca.sd.xmile.XmiMinMax;
 import org.openlca.sd.xmile.XmiModel;
 import org.openlca.sd.xmile.XmiPoints;
@@ -41,12 +42,20 @@ class XmileWriter {
 	Xmile write() {
 		var xmile = new Xmile();
 		if (model == null) return xmile;
+		xmile.setHeader(writeHeader());
 		xmile.setSimSpecs(writeSimSpecs());
 		xmile.setDims(writeDims());
 		var xmiModel = new XmiModel();
 		xmiModel.setVariables(writeVariables());
 		xmile.setModel(xmiModel);
 		return xmile;
+	}
+
+	private XmiHeader writeHeader() {
+		var header = new XmiHeader();
+		header.setUuid(model.id());
+		header.setName(model.name());
+		return header;
 	}
 
 	private XmiSimSpecs writeSimSpecs() {

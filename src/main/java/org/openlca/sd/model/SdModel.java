@@ -11,6 +11,8 @@ import org.openlca.sd.xmile.Xmile;
 
 public class SdModel {
 
+	private String id;
+	private String name;
 	private SimSpecs time;
 	private final List<Var> vars = new ArrayList<>();
 	private final List<Dimension> dimensions = new ArrayList<>();
@@ -54,7 +56,21 @@ public class SdModel {
 	public Xmile toXmile() {
 		return new XmileWriter(this).write();
 	}
+	public String id() {
+		return id;
+	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String name() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	public SimSpecs time() {
 		return time;
 	}
