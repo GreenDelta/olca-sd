@@ -16,20 +16,7 @@ import org.openlca.sd.model.cells.NumCell;
 import org.openlca.sd.model.cells.TensorCell;
 import org.openlca.sd.model.cells.TensorEqnCell;
 import org.openlca.sd.util.Tensors;
-import org.openlca.sd.xmile.XmiAux;
-import org.openlca.sd.xmile.XmiDim;
-import org.openlca.sd.xmile.XmiElement;
-import org.openlca.sd.xmile.XmiEvaluatable;
-import org.openlca.sd.xmile.XmiFlow;
-import org.openlca.sd.xmile.XmiGf;
-import org.openlca.sd.xmile.XmiHeader;
-import org.openlca.sd.xmile.XmiMinMax;
-import org.openlca.sd.xmile.XmiModel;
-import org.openlca.sd.xmile.XmiPoints;
-import org.openlca.sd.xmile.XmiSimSpecs;
-import org.openlca.sd.xmile.XmiStock;
-import org.openlca.sd.xmile.XmiVariable;
-import org.openlca.sd.xmile.Xmile;
+import org.openlca.sd.xmile.*;
 
 class XmileWriter {
 
@@ -53,9 +40,42 @@ class XmileWriter {
 
 	private XmiHeader writeHeader() {
 		var header = new XmiHeader();
+		header.setVendor("openLCA.org");
 		header.setUuid(model.id());
 		header.setName(model.name());
+		var product = new XmiProduct();
+		product.setLang("en");
+		product.setVersion("2.7");
+		product.setValue("openLCA");
+		header.setProduct(product);
+
+		var smile = new XmiSmile();
+		smile.setVersion("1.0");
+		smile.setUsesArrays(Integer.toString(getMaxArrayDimension()));
+		smile.setNamespace("std, olca");
+		header.setSmile(smile);
 		return header;
+	}
+
+	private int getMaxArrayDimension() {
+		if (model == null) return 0;
+		int maxDim = 0;
+		for (var v : model.vars()) {
+			var tensor = tensorOf(v.def());
+			if (tensor != null) {
+				maxDim = Math.max(maxDim, tensor.dimensions().size());
+			}
+		}
+		return maxDim;
+	}
+
+	private Tensor tensorOf(Cell cell) {
+		return switch (cell) {
+			case TensorCell(Tensor t) -> t;
+			case TensorEqnCell(Cell ignore, Tensor t) -> t;
+			case NonNegativeCell(Cell c) -> tensorOf(c);
+			case null, default -> null;
+		};
 	}
 
 	private XmiSimSpecs writeSimSpecs() {
