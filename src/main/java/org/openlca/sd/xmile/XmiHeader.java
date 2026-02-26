@@ -7,6 +7,9 @@ import jakarta.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmiHeader {
 
+	@XmlElement(name = "smile", namespace = Xmile.NS)
+	XmiSmile smile;
+
 	@XmlElement(name = "name", namespace = Xmile.NS)
 	String name;
 
@@ -15,6 +18,17 @@ public class XmiHeader {
 
 	@XmlElement(name = "vendor", namespace = Xmile.NS)
 	String vendor;
+
+	@XmlElement(name = "product", namespace = Xmile.NS)
+	XmiProduct product;
+
+	public XmiSmile smile() {
+		return smile;
+	}
+
+	public void setSmile(XmiSmile smile) {
+		this.smile = smile;
+	}
 
 	public String name() {
 		return name;
@@ -38,5 +52,13 @@ public class XmiHeader {
 
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
+	}
+
+	public XmiProduct product() {
+		return product;
+	}
+
+	public void setProduct(XmiProduct product) {
+		this.product = product;
 	}
 }
