@@ -1,14 +1,9 @@
 package org.openlca.sd.model;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openlca.commons.Res;
 import org.openlca.commons.Strings;
 import org.openlca.sd.model.cells.BoolCell;
 import org.openlca.sd.model.cells.Cell;
@@ -35,69 +30,32 @@ import org.openlca.sd.xmile.XmiStock;
 import org.openlca.sd.xmile.XmiVariable;
 import org.openlca.sd.xmile.Xmile;
 
-import jakarta.xml.bind.JAXB;
-
-public class XmileWriter {
+class XmileWriter {
 
 	private final SdModel model;
 
-	public XmileWriter(SdModel model) {
+	XmileWriter(SdModel model) {
 		this.model = model;
 	}
 
-	public static Res<Void> write(SdModel model, File file) {
-		return new XmileWriter(model).writeTo(file);
-	}
-
-	public static Res<Void> write(SdModel model, OutputStream stream) {
-		return new XmileWriter(model).writeTo(stream);
-	}
-
-	public Res<Xmile> write() {
-		if (model == null)
-			return Res.error("no model provided");
+	Xmile write() {
 		var xmile = new Xmile();
+		if (model == null) return xmile;
 		xmile.setSimSpecs(writeSimSpecs());
 		xmile.setDims(writeDims());
 		var xmiModel = new XmiModel();
 		xmiModel.setVariables(writeVariables());
 		xmile.setModel(xmiModel);
-		return Res.ok(xmile);
-	}
-
-	public Res<Void> writeTo(File file) {
-		var res = write();
-		if (res.isError()) return res.castError();
-		try (var stream = new FileOutputStream(file);
-				 var buffer = new BufferedOutputStream(stream)) {
-			JAXB.marshal(res.value(), buffer);
-			return Res.ok();
-		} catch (Exception e) {
-			return Res.error("Error writing XMILE file: " + file, e);
-		}
-	}
-
-	public Res<Void> writeTo(OutputStream stream) {
-		var res = write();
-		if (res.isError()) return res.castError();
-		try {
-			JAXB.marshal(res.value(), stream);
-			return Res.ok();
-		} catch (Exception e) {
-			return Res.error("Error writing XMILE stream", e);
-		}
+		return xmile;
 	}
 
 	private XmiSimSpecs writeSimSpecs() {
 		var specs = model.time();
-		if (specs == null)
-			return null;
-
+		if (specs == null) return null;
 		var x = new XmiSimSpecs();
 		x.setStart(specs.start());
 		x.setStop(specs.end());
 		x.setTimeUnits(specs.unit());
-
 		var dt = new XmiSimSpecs.DeltaT();
 		dt.setValue(specs.dt());
 		x.setDt(dt);

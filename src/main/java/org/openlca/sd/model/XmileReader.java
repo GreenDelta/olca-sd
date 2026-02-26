@@ -50,13 +50,6 @@ class XmileReader {
 		return new Dimension(id, elements);
 	}
 
-	public static Res<SdModel> read(java.io.InputStream stream) {
-		var xmile = Xmile.readFrom(stream);
-		if (xmile.isError())
-			return xmile.castError();
-		return new XmileReader(xmile.value()).read();
-	}
-
 	Res<SdModel> read() {
 		var xmiModel = xmile.model();
 		if (xmiModel == null)

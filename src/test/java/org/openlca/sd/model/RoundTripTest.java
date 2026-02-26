@@ -20,13 +20,13 @@ public class RoundTripTest {
 		var stream = getClass().getResourceAsStream("/org/openlca/sd/xmile/example.xml");
 		assertNotNull(stream);
 
-		SdModel model = XmileReader.read(stream).orElseThrow();
+		SdModel model = SdModel.readFrom(stream).orElseThrow();
 
 		File file = folder.newFile("output.xml");
-		XmileWriter.write(model, file).orElseThrow();
+		model.writeTo(file).orElseThrow();
 
 		// Read it back
-		SdModel model2 = XmileReader.read(Files.newInputStream(file.toPath())).orElseThrow();
+		SdModel model2 = SdModel.readFrom(Files.newInputStream(file.toPath())).orElseThrow();
 
 		// Basic checks
 		assertEquals(model.time().start(), model2.time().start(), 1e-6);
@@ -45,13 +45,13 @@ public class RoundTripTest {
 		var stream = getClass().getResourceAsStream("/org/openlca/sd/xmile/arrays.xml");
 		assertNotNull(stream);
 
-		SdModel model = XmileReader.read(stream).orElseThrow();
+		SdModel model = SdModel.readFrom(stream).orElseThrow();
 
 		File file = folder.newFile("arrays_output.xml");
-		XmileWriter.write(model, file).orElseThrow();
+		model.writeTo(file).orElseThrow();
 
 		// Read it back
-		SdModel model2 = XmileReader.read(Files.newInputStream(file.toPath())).orElseThrow();
+		SdModel model2 = SdModel.readFrom(Files.newInputStream(file.toPath())).orElseThrow();
 
 		assertEquals(model.dimensions().size(), model2.dimensions().size());
 		assertEquals(model.vars().size(), model2.vars().size());
